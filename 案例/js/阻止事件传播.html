@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="list">
+
+    </ul>
+
+    <script>
+        var arr = ['11111', '22222', '33333', '44444', '55555']
+        for (var i = 0; i < arr.length; i++) {
+            var oli = document.createElement('li')
+            oli.innerHTML = arr[i]      
+
+            var obutton = document.createElement('button')
+            obutton.innerHTML = 'delete'
+            oli.appendChild(obutton)         //每次循环，加上按钮
+            list.appendChild(oli)            //li放入ul
+            
+            obutton.onclick = function(evt){     
+                console.log(this)              //确定点的第几个
+                this.parentNode.remove()        //找到当前节点的父节点，删除
+                evt.stopPropagation()         //阻止事件传播，防止跳转
+            }
+            
+            oli.onclick = function(){              //点击任意处会跳转，包括删除
+                location.href = 'http://www.baidu.com'
+            }
+        }
+
+    </script>
+</body>
+
+</html>

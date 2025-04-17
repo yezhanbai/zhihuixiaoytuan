@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1">清除-倒计时计时器</button>
+    <button id="btn2">清除-间隔计时器</button>
+    <button id="btn3">返回</button>
+    <script>
+        /* 字符串 */
+        //字符串的值是不可变的，这意味着一旦字符串被创建就不能被改变，改变的唯一方法是重新给它赋一个值
+        var str1 = 'shiyunfei'
+        console.log(str1.length -1)         //查看字符串最后一个字符位置
+        console.log(str1[str1.length -1])        //查看字符串最后一个值
+        console.log(str1[3])        //根据索引查看值
+
+        for(var i=0;i<str1.length;i++){            //遍历
+            console.log(i,str1[i])        //i：索引    str1[i]：索引对应值
+        }
+
+        var str2 = str1
+        str1 = 'aaaaaa'
+        console.log(str1,str2)     // 字符串是简单的基本数据类型，不存在栈区，堆区的区别，都是在栈区完成的，所以复制互不影响
+
+        var str3 = 'shiyunfei'
+        var str4 = 'KERWIN'
+        console.log(str3.toUpperCase())         //toUpperCase()：所有字符转换成大写
+        console.log(str4.toLowerCase())         //toLowerCase()：所有字符转换成小写
+
+        //截取     substring()和slice()的区别：1.slice()支持负数    2.substring()中，如果第一个参数大于第二个参数，它们会被自动交换
+        console.log(str3.substr(1,5))         //substr(开始索引，截取长度)
+        console.log(str3.substring(1,5))      //substring(开始索引，结束索引，包前不包后，不支持负数)
+        console.log(str3.slice(1,5))          //slice(开始索引，结束索引，包前不包后)
+
+        console.log(str3.slice(0,1).toUpperCase()+str3.slice(1))       //首字母大写案例
+
+        console.log(str3.replace('i','*'))        //replace()：替换       只替换遇见的第一个
+
+        console.log(str3.split(''))           //split()：分割      字符串按指定的分隔符拆分成数组
+
+        console.log(str3.indexOf('y'))        //indexOf()：找字符的索引所在位置     -1：找不到      indexOf还可以写成：search，但只有search支持正则表达式
+
+        console.log(str3.concat('123'))       //concat()：拼接
+
+        var str5 = '  xiaohong  '    
+        console.log('|'+str5+'|')
+        console.log('|'+str5.trim()+'|')             //trim()：去掉首尾空格
+
+
+        /* json格式字符串 */
+        //字符串转对象     符合特定格式要求的才可以转，且key也要有双引号，不能多逗号
+        //背景：后端将信息转换成json格式传给前端，前端获取后再转换成前端的对象进行解析；同理，前端的信息也要转换成json的格式传给后端
+        //js中的对象和json格式的区别：对象的key可以不加括号，而json的key必须加括号，仅此而已
+        
+        //后端给前端的json字符串格式
+        var str6 = '{"name":"kerwin","age":100}'  
+
+        //前端把json字符串解析成对象结构
+        var obj = JSON.parse(str6)
+        console.log(str6,obj)
+        console.log(obj.name)         //此时可访问到内容
+
+        //前端的数据：
+        var obj1 = {name:'tiechui',age:18}
+        
+        //转换成后端要的json字符串格式
+        var str7 = JSON.stringify(obj1)
+        console.log(obj1,str7)
+
+
+        /* 模版字符串 */
+        var arr1 = ['xiaoming', 'kerwin', 'tuichui']
+        var arr2 = arr1.map(function(item){
+            return `<li>${item}</li>`        //``：反引号，里面实现字符串的全局转换         ${}里面可以放变量，也可放其他运算
+        })
+        document.write(arr2.join(''))
+
+
+        /* 数字常用方法 */
+        var price = 123.45678
+        console.log(price.toFixed(2))         //toFixed()，保留两位小数，且最后四舍五入，不够两位，后面自动补0
+
+        //Math对象
+        console.log(Math.random())                 //random()，返回0-1之间的随机数，包0不包1 
+        console.log(Math.round(4.56))              //round()，四舍五入取整
+        console.log(Math.ceil(5.11))               //ceil()，向上取整
+        console.log(Math.floor(4.46))              //floor()，向下取整
+        console.log(Math.abs(-3.56))               //abs()，绝对值
+        console.log(Math.max(10,50,20,34))         //max()，多个参数，取最大值
+        console.log(Math.min(10,50,20,34))         //min()，多个参数，取最小值
+        console.log(Math.PI)                       //PI，π，计算机的计算精度问题，只能得到小数点后15位
+
+        //随机整数
+        var res = Math.floor(Math.random()*10)         //0-10    不包含10
+        var res = Math.floor(Math.random()*11)         //0-10    包含10
+        var res = Math.floor(Math.random()*10)+10      //10-20   不包含20
+
+
+        /* 时间对象 */
+        console.log(new Date())                //当前时间
+        console.log(new Date(1000))            //1000：毫秒数，计时都是从 1970年1月1日 0:0:0 开始
+        console.log(new Date('2023-10-09 08:07:06'))       //字符串写法
+
+        //常用方法
+        var date = new Date()
+        console.log(date.getFullYear())         //getFullYear()，获取年份
+        console.log(date.getMonth())            //getMonth()，获取月份，得到0-11，对应的是1-12月
+        console.log(date.getDate())             //getDate()，获取日
+        console.log(date.getDay())              //getDay()，获取周，周日是0，周一到周六是1-6
+        console.log(date.getHours())            //getHours()，获取时
+        console.log(date.getMinutes())          //getMinutes()，获取分
+        console.log(date.getSeconds())          //getSeconds()，获取秒
+        console.log(date.getMilliseconds())     //getMilliseconds()，获取毫秒
+        console.log(date.getTime())             //getTime()，获取时间戳，距离1970年1月1号0点整的毫秒数
+        console.log(new Date(1727572698449))    //解析时间戳
+        console.log(date)
+        date.setFullYear(2026)          //设置年，其他设置同理，但是周不可以设置，年月日会自动去推算周
+        console.log(date)
+        date.setTime(1727572698449)
+        console.log(date)
+
+        //定时器       
+        //属于异步，一定要等到同步都执行完了才可以执行
+        var time1 = setTimeout(function(){        //注册倒计时定时器
+            console.log('kerwin')
+        },3000)   
+
+        // var time2 = setInterval(function(){       //注册间隔定时器
+        //     console.log(new Date)
+        // },3000)
+
+        btn1.onclick = function(){
+            clearTimeout(time1)          //清除倒计时定时器
+        }
+        btn2.onclick = function(){
+            clearInterval(time2)         //清除间隔定时器
+            console.log('停')        
+        }
+
+        //配合JS-04.html
+        btn3.onclick = function(){
+            history.go(-1)          //-1指往回眺一个页面     
+        }
+
+    </script>
+</body>
+</html>

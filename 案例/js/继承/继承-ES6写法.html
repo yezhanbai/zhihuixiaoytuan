@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box1">
+        <h1></h1>
+        <ul></ul>
+    </div>
+
+    <div class="box2">
+        <h1></h1>
+        <img src="" style="width: 100px;">
+        <ul></ul>
+    </div>
+
+    <script>
+        //案例：百度新闻，有很多列表，财经的，体育的，汽车的，娱乐的等等，把列表当成菜，制作一个生成菜的工厂来
+        var data1 = {      //后端给的
+            title: '体育',
+            list: ['体育-1', '体育-2', '体育-3']
+        }
+        var data2 = {
+            title: '财经',
+            url: 'https://pic.maizuo.com/usr/movie/878f3f2dc9ad07a08d37f2fe5affbc32.jpg?x-oss-process=image/quality,Q_70',   //这里需要继承
+            list: ['财经-1', '财经-2', '财经-3']
+        }
+
+        class CreateList {
+            constructor(select, data = {}) {
+                this.ele = document.querySelector(select)
+                this.title = data.title,
+                this.list = data.list
+                this.render()
+            }
+            render() {
+                var h1 = this.ele.querySelector('h1')
+                var ul = this.ele.querySelector('ul')
+                h1.innerHTML = this.title
+                ul.innerHTML = this.list.map(item => `<li>${item}</li>`).join('')
+            }
+        }
+        var obj1 = new CreateList('.box1', data1)
+
+
+        //这里开始写继承
+        class CreateImgList extends CreateList {
+            constructor(select, data) {           //这里注意，没放第三个参数是因为实参并没有传第三个参数
+                super(select, data)
+                this.imgUrl = data.url
+                this.render()
+            }
+            render() {
+                super.render()
+                var img = this.ele.querySelector('img')
+                img.src = this.imgUrl
+            }
+        }
+        var obj3 = new CreateImgList('.box2', data2)
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .header {
+            display: flex;
+            width: 500px;
+        }
+
+        .header li {
+            flex: 1;
+            height: 50px;
+            border: 1px solid black;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .box li {
+            width: 500px;
+            height: 200px;
+            background-color: yellow;
+            display: none;
+        }
+
+        .header .active {
+            background-color: red;
+        }
+
+        .box .active {
+            display: block
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="header">
+        <li class="active">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+
+    <ul class="box">
+        <li class="active">11111</li>
+        <li>22222</li>
+        <li>33333</li>
+        <li>44444</li>
+        <li>55555</li>
+        <li>66666</li>
+    </ul>
+
+    <script>
+        var oHeaderItems = document.querySelectorAll('.header li')
+        var oBoxItems = document.querySelectorAll('.box li')
+
+        for (let i = 0; i < oHeaderItems.length; i++) {       //let定义的值只存活在块级里面，访问时就能拿到每次i的值，因为它不同于var，每次就那一个值在那++，--的更新，它会不断产生独立的新值，这也是let最常用的方法
+            oHeaderItems[i].onclick = function () {
+                var index = i
+                for (m = 0; m < oHeaderItems.length; m++) {
+                    oHeaderItems[m].classList.remove('active')        //不管有没有，去除所有li身上的active
+                    oBoxItems[m].classList.remove('active')
+                }
+                oHeaderItems[index].classList.add('active')         //给当前点击的li加active
+                oBoxItems[index].classList.add('active')
+            }
+        }
+    </script>
+</body>
+
+</html>

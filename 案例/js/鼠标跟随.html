@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        
+        div{
+            width: 200px;
+            height: 50px;
+            background-color: yellow;
+            margin: 100px;
+            position: relative;
+        }
+
+        #box p{
+            width: 300px;
+            height: 200px;
+            background-color: red;
+            position: absolute;
+            display: none;
+            z-index: 2;
+            pointer-events: none;    /* 穿透，它将不再接收任何类型的鼠标交互，包括点击、悬停等。这意味着用户无法通过鼠标与该元素进行交互，所有的鼠标事件都将穿透该元素并传递给其下方的其他元素；不设置的话，鼠标移上去会抖动，因为它有时会相对于自己的x,y轴，根据代码，它是距离自己左上角，此时接近于0,0，所以会抖动 */
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        kerwin的头像
+        <p>
+            kerwin的自我介绍
+        </p>
+    </div>
+    <div>1111111</div>      <!-- 层级高，会盖住原属性 -->
+
+    <script>
+        box.onmouseover = function(){
+            this.firstElementChild.style.display = 'block'       
+        }
+        box.onmouseout = function(){
+            this.firstElementChild.style.display = 'none'
+        }
+
+        box.onmousemove = function(evt){
+            console.log(evt.offsetX,evt.offsetY)
+            this.firstElementChild.style.left = evt.offsetX + 'px'      //evt.offsetX和evt.offsetY，它们的值是number类型，要控制上去，需要加上px
+            this.firstElementChild.style.top = evt.offsetY + 'px'
+        }
+    </script>
+</body>
+</html>

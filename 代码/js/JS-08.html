@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <input type="text" name="" id="mytext1">
+    <input type="text" name="" id="mytext2">
+    <script>
+        /* this指向 */
+        //定义：谁调用，this就指向谁       总结：1.全局指向window，2.异步回调指向window，3.对象调用指向对象，4.事件调用指向事件
+        function test() {
+            console.log(this)      //全局，指向Window
+        }
+        test()
+
+        var obj = {
+            name: 'kerwin',
+            test1: function () {
+                console.log('111', this.name)      //this可以指向对象里面的key值
+            }
+        }
+        obj.test1()       //对象，test1被obj调用，指向obj
+
+        setTimeout(function () {
+            console.log(12345, this)      //异步回调，两秒之后，函数被window调用，所以指向的window
+        }, 5000)
+
+        box.onclick = function () {
+            console.log(this)       //事件，被执行的主体是box，所以this是被box调用，指向box
+        }
+
+        //改变this指向
+        var obj1 = {
+            name: '小小飞1',
+            getName: function (a, b, c) {
+                console.log('getName1', this.name)
+                console.log('参数', a, b, c)
+            }
+        }
+        var obj2 = {
+            name: '小小飞2',
+            getName: function () {
+                console.log('getName2', this.name)
+            }
+        }
+        // obj1.getName()        //getName1 小小飞1
+        // obj2.getName()        //getName2 小小飞2
+
+        obj1.getName.call(obj2, 2, 3, 4)             //call()，改变this指向括号里的第一个参数，取它主体里的内容，支持多个参数，从第2个参数到最后又给到obj1
+        obj1.getName.apply(obj2, [3, 4, 5])       //apply()，改变this指向括号里的第一个参数，取它主体里的内容，只接受两个参数，第二个参数必须是数组
+        var fun1 = obj1.getName.bind(obj2, 4, 5, 6)      //bind()，改变this指向括号里的第一个参数，不会自动执行函数，而是会返回一个新的函数，需要手动再调用，支持多个参数，从第2个参数到最后又给到obj1，属于永久改变
+        fun1()
+
+
+        /* 定义变量 */
+        {
+            let x = 1;
+            console.log(x)
+        }
+        // console.log(x)       //报错，它们只在声明它们的代码块 {} 内有效     且在代码块中，变量名不能重复
+
+        const name = 'xiaohong'        //定义常量
+        // name = 'xiaofang'       //报错，无法给常量赋值   
+        const obj3 = {
+            name: 'kerwin'
+        }
+        obj3.name = 'xiaozhao'
+        console.log(obj3)         //对象存的是复杂类型，存在栈区和堆区
+
+
+        /* 箭头函数 */
+        let test2 = function () {
+            console.log('aaaaa')
+        }
+        let test3 = () => {          //省略function的写法
+            console.log('aaaaa')
+        }
+        test2(), test3()
+
+        let test4 = (a) => {
+            console.log(a)
+        }
+        let test5 = a => {      //小括号()可以省略，但只能有一个形参的情况
+            console.log(a)
+        }
+        test4('bbbbb'), test5('bbbbb')
+
+        let test6 = a => {
+            return 100 * a
+        }
+        let test7 = a => 100 * a       //大括号{}可以省略，只有一句代码，或只有返回值的时候，可以省略return
+        console.log(test6(2), test7(2))
+
+        mytext1.oninput = function () {
+            setTimeout(function () {
+                console.log(this.value)        //this指向的是window，window下面没有value值，结果是undefined
+            }, 1000)
+        }
+        mytext2.oninput = function () {
+            setTimeout(() => {
+                console.log(this.value)         //箭头函数中，this指向的是父级作用域，即mytext2.oninput = function () {}
+            }, 1000)
+        }
+
+        let test8 = (a = 6, b = 7) => a + b      //调用时忘记传参，可以先给个默认值，传参后默认值自动生效
+        console.log(test8())
+
+
+        /* 解析赋值 */
+        let arr = ['xiaoming', 'tiechui', 'shanzhen']         
+        let [x, y, z] = arr
+        console.log(x, y, z)           //没法直接获取到z，需要先把前两个补上
+
+        var a = 10, b = 20
+        var [b, a] = [a, b]         //交换
+        console.log(a,b)    
+
+        let obj4 = {
+            name:'kerwin'
+        }
+        let {name:myname} = obj4          //重命名
+        console.log(myname)
+
+
+        /* 对象简写 */
+        let username = 'kerwin',password = '123456'
+        let obj5 = {
+            username,      // username:username,
+            password,      // password:password
+        }
+        console.log(obj5)
+
+        let obj6 = {
+            a:'xiaoxiaofei',
+            getName(){         // getName:function(){
+                console.log(this.a)  
+            }
+        }
+        obj6.getName()
+
+
+        /* 展开运算符 */
+        // ...  此方法对原数据没有影响
+        let arr1 = [1,2,3]
+        let arr2 = [4,5,6]
+        let arr3 = [...arr1,...arr2]
+        console.log(arr3)
+
+        let arr4 = [7,8,9]
+        let arr5 = [...arr4]      //复制数组
+        console.log(arr5)    
+
+        let test9 = (...arr) => console.log(arr)         //普通函数获取实参
+        test9(3,2,1)
+
+        let test10 = (m,n,...arr) => console.log(arr)      //6给了m，5给了n，4-2给了arr，且arr必须在最后一个形参上
+        test10(6,5,4,3,2)    
+
+        let arr6 = [7,6,5]
+        let test11 = function(a,b,c){
+            console.log(a,b,c)
+        }
+        test11(...arr6)           //展开实参
+
+        let arr7 = [1,2,4,9,3,7,2]        //后端给的求最大值
+        let res = Math.max(...arr7)
+        console.log(res)
+
+        function test12(){
+            let arr8 = [...arguments]      //arguments：函数自带，会把实参存在伪数组里，展开后变成了真数组
+            console.log(arr8)
+        }
+        test12(8,3,9,2)
+
+        let obj7 = {
+            name:'kerwin',
+            age:100,
+            dizhi:'dalian'
+        }
+        let obj8 = {
+            name:'tiechui',
+            location:'dalian'
+        }
+        let obj9 ={        //合并对象，对于同名的key，value值会覆盖
+            ...obj7,
+            ...obj8
+        }
+        console.log(obj9)    
+
+
+    </script>
+</body>
+
+</html>

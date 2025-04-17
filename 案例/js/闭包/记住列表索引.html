@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>11111</li>
+        <li>22222</li>
+        <li>33333</li>
+    </ul>
+
+    <script>
+        var oli = document.querySelectorAll("li")
+        
+        for (var i = 0; i < oli.length; i++) {
+            oli[i].onclick = (function (index) {
+                return function () {
+                    console.log(index)
+                }
+            })(i)                 //把函数用括号包起来，再加小括号，达成点击时立即执行函数的功能，这种也叫匿名自执行函数
+        }
+    </script>
+</body>
+</html>

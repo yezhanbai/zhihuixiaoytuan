@@ -1,0 +1,96 @@
+<!-- 
+
+Vue是一个用于构建用户界面的渐进式框架，而Vite则是一个构建工具，旨在提供更快、更高效的开发体验。当你将Vue与Vite结合起来使用时，可以充分利用两者的优势——Vue的强大功能和易用性以及Vite提供的快速开发循环和高效的构建过程。
+
+PS D:\前端\xiaoxiaofei\Vue> npm create vite@latest
+Need to install the following packages:
+create-vite@5.5.5
+Ok to proceed? (y) y
+
+> npx
+> create-vite
+
+? Project name: » vite-project          输入自己项目的名字
+
+创建完项目后，执行npm i命令，它会在package.json中找到依赖：dependencies和devDependencies，并下载下来，生成node_modules文件夹
+
+因为src里面都是模块化样式的，所以axios需要按模块化的方式下载，执行npm i axios命令，它会从npm仓库里面，直接找到axios库，然后下载到node_modules里面，执行npm i axios --save  会保存到package.json中的dependencies对象中，这里面放的是可使用的模块
+
+npm i echarts --save    npm i swiper --save   npm install animate.css --save   上述同样方式导入
+
+vetur插件仍然会报错：The template root requires exactly one element，单文件组件（SFC）的 <template> 部分要求根元素必须有且仅有一个，实际vue3已经支持多个
+
+public：纯静态资源文件夹
+
+style.css 会影响页面默认的样式，可自行设置
+
+vue本身是一个单文件组件，内置一个vue-loader，用来解析和转换.vue文件，提取出其中的逻辑代码script、样式代码syle、模版template，再分别把他们交给对应的Loader去处理
+
+创建TS环境，npm create vite@latest    最后选择到TS    创建完项目后，执行npm i命令，它会在package.json中找到依赖：dependencies和devDependencies，并下载下来，生成node_modules文件夹
+
+npm run dev           运行开发调试环境
+npm run serve        运行这个命令后，创建了一个单独的服务器，且具有热更新的能力
+index.html           这个文件就是个模版，以后html依赖的JS，都会注入进去
+main.js              唯一模块的入口，写JS，用的ES6的导入的方式，先导入App.vue，再导入进index.html
+package.json         整个node项目启动的配置
+npm run build        打包，发给后端，前端工作结束
+
+
+npm install vue-router@4     安装路由
+npm install -D sass-embedded
+npm i sass   安装scss
+npm install vuex@next --save        安装vuexn
+npm install pinia       安装pinia
+npm i vant          安装vant
+npm i lodash        安装lodash
+npm i element-plus      安装element-plus
+npm i pinia-plugin-persistedstate     安装pinia持久化插件
+npm i vue3-particles+npm i tsparticles    下载粒子特效组件   npm i  @tsparticles/vue3
+npm i xlsx   安装xlsx模块
+npm i @kjgl77/datav-vue3    下载大屏可视化组件
+npm i jsonwebtoken   在后端安装token生成器
+npm install --save nprogress   安装进度条显示组件
+npm install @wangeditor/editor-for-vue@next --save    富文本组件
+-->
+
+
+<!-- 
+生态系统：
+ECharts：一个基于 JavaScript 的开源可视化图表库
+Swiper：强大的触摸滑动插件，简单配置即可实现手机、电脑网页大部分滑动功能，焦点图、tab、触摸导航等
+Animate：CSS动画库
+router：路由
+scss：css嵌套语法
+vuex＆pinia：状态统一管理
+vant：轻量、可定制的移动端 Vue 组件库
+lodash：一个一致性、模块化、高性能的 JavaScript 实用工具库
+Element Plus：基于 Vue 3，面向设计师和开发者的组件库
+pinia-plugin-persistedstate: pinia数据永久存储工具，解决刷新页面数据会丢失
+xlsx：解析xlsx文件
+wangEditor：富文本组件
+DateV：大屏可视化组件，用别人二次开发的文档，如果打不开，基于原版文档也能操作
+jsonwebtoken：帮助后端生成token，在后端安装
+nprogress：进度条显示组件
+-->
+
+
+<!-- 
+express 文件名    创建脚手架(项目)     
+npm i 安装所有依赖
+修改package.json   改成"start": "node-dev ./bin/www"
+npm start    启动项目 
+如果首次启动报错，就 npm i -g node-dev
+
+npm i mongoose@7.0.0   安装数据库服务
+npm i mongodb@6.13.0    安装数据库
+
+.\mongod.exe --dbpath='D:\前端\冲刺\前端\node\ddbb'    启动数据库服务
+
+-->
+
+
+
+
+
+
+

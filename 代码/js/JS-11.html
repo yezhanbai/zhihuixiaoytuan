@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="savebtn">存储</button>
+    <button id="getbtn">获取</button>
+    <script>
+        /* Cookie */
+        //定义：Cookie 是由服务器发送到用户浏览器的一小段信息，浏览器会将这段信息保存下来，并在后续请求同一服务器时再次发送回去     是代替localStorage完成本地存储
+        /* 
+        Expires / Max-Age：指定 Cookie 的有效期。Expires 使用具体的日期时间，而 Max-Age 使用秒数表示从创建开始的有效期
+        Domain：指定 Cookie 所属的域名。这允许跨子域共享 Cookie
+        Path：限制 Cookie 的有效路径。默认情况下，Cookie 对整个站点有效，但你可以将其限制到某个特定的目录
+        Secure：当设置此标志时，Cookie 只有在 HTTPS 请求中才会被发送给服务器
+        httponly：防止通过 JavaScript 访问 Cookie，从而减少 XSS 攻击的风险
+        */
+        savebtn.onclick = function () {
+            //设置一个简单的 Cookie
+            document.cookie = "username1=Jane";
+
+            // 设置带有过期时间和路径的 Cookie
+            const now = new Date();
+            now.setTime(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7天后过期
+            document.cookie = `username2=JaneDoe; expires=${now.toUTCString()}; path=/`;         //toUTCString()：返回一个包含 UTC 时间的字符串，格式类似于 'Fri, 31 Dec 1999 23:59:59 GMT'，通俗讲就是变成东八区时间(国内用)
+        }
+
+        getbtn.onclick = function () {
+            //读取 Cookie
+            //由于 document.cookie 返回的是一个字符串形式的 Cookie，你需要解析这个字符串来获取特定的 Cookie
+            function getCookie(name) {
+                const cookieArr = document.cookie.split("; ");
+                console.log(cookieArr)
+                const obj = {}
+                for (let i = 0; i < cookieArr.length; i++) {
+                    const cookiePair = cookieArr[i].split("=");
+                    console.log(cookiePair)
+                    obj[cookiePair[0]] = cookiePair[1]
+                }
+                console.log(obj)
+                return obj[name]
+            }
+            console.log(getCookie('username1'), getCookie('username2')); // 输出: Jane JaneDoe
+        }
+
+
+        /* CORS */
+        //作用：浏览器能够安全地进行跨域请求
+        /* 
+        响应处理：无论哪种类型的请求，服务器返回的响应都必须包含适当的 CORS 相关头部，以告知浏览器是否允许客户端访问资源。常见的 CORS 响应头部包括：
+        Access-Control-Allow-Origin：指定允许访问资源的来源。可以是一个具体的 URI，也可以是通配符 * 表示允许所有来源。
+        Access-Control-Allow-Methods：列出允许使用的 HTTP 方法。
+        Access-Control-Allow-Headers：列出允许的请求头部字段。
+        Access-Control-Allow-Credentials：表明是否允许发送凭据（如 Cookies）。如果设置为 true，那么 Access-Control-Allow-Origin 不能是 *，必须带cookie才能访问
+        Access-Control-Max-Age：指定了预检请求的结果可以被缓存的时间长度，单位为秒.
+        */
+        /* 
+        credentials
+        //通过设置 credentials 的值，开发者可以控制是否在跨域请求中包含这些敏感信息
+        omit：默认值。这意味着不会发送任何凭据，即使目标 URL 和发起请求的页面属于同一来源。这对于公开资源或不需要用户身份验证的操作是合适的。
+        same-origin：仅当请求的目标 URL 和当前页面属于同一来源时，才会发送凭据。这是大多数情况下推荐的设置，因为它确保了凭据不会被意外地发送到不受信任的第三方服务器。
+        include：无论目标 URL 是否与当前页面同源，都会发送凭据。这通常用于需要跨域身份验证的情况下，但要求服务器端也正确配置 CORS，允许接收凭据。
+        */
+        fetch('https://api.example.com/data', {
+            method: 'GET',
+            mode: 'cors', // 确保启用 CORS 模式
+            credentials: 'include' // 如果需要发送凭据，如 Cookies
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
+
+        /* 领域 */
+        //原理：内部变量外部不能拿到，但将内部return出去后，外部就可以拿内部并调用，内部变量就被锁住了不会被销毁，内部不会被销毁，整个函数就不会被销毁，所以如何让函数在调用时，作用所在领域不销毁：1.函数有返回值，2.返回值是复杂类型，而且要赋值给外面的变量
+        function test() {
+            var obj = {
+                a: 1,
+                b: 2
+            }
+            return obj
+        }
+        var res1 = test()
+        var res2 = test()
+        console.log(res1 === res2)         //false     因为在领域中，res1有拿到函数返回值，所以领域被保留下来了，等执行res2时，又打开了一个新领域，所以两个领域并不相等
+        res1 = null         //赋值为空后，释放正调用着的test的内部数据，领域也随之被释放
+
+
+        /* 闭包 */
+        //定义：函数内部返回一个函数，必须是函数，如果是对象中包着函数也算，且函数被外界所引用，也叫函数的柯里化，优点：让临时变量永驻内存，缺点：内存过载
+        function outer() {
+            var name = 'kerwin'
+            return function () {
+                return name + '11111111'
+            }
+        }
+        var func = outer()        //返回方法
+        console.log(func())       //调用返回的方法
+
+        function FetchContainer(url) {
+            return function (path) {
+                return fetch(url + path)
+            }
+        }
+        var fetcha = FetchContainer('http://www.a.com')            // 1.fetcha是function FetchContainer(url)的调用，结果等同于return function(path)
+        fetcha('/aaa').then(res => res.json()).then(res => console.log(res))         // 2. 所以fetcha()的调用，是把/aaa传给path
+        fetcha('/bbb').then(res => res.json()).then(res => console.log(res))
+        // 3.上面两个请求的路径即为：http://www.a.com/aaa 和  http://www.a.com/bbb
+        var fetchb = FetchContainer('http://www.b.com')
+        fetchb('/aaa').then(res => res.json()).then(res => console.log(res))
+        fetchb('/bbb').then(res => res.json()).then(res => console.log(res))
+    </script>
+</body>
+
+</html>

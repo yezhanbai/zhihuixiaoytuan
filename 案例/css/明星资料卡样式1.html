@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    
+        .box{
+            width: 350px;
+            margin: 20px auto;
+            border: 5px solid red;
+            overflow: hidden;
+            position: relative;
+            
+        }
+
+        img{
+            width: 100%;
+            transition: all 1s;
+        }
+
+        h2{
+            position: absolute;
+            color: white;
+            left: 50px;
+            top: 10px;
+            transition: all 1s 0.5s; 
+        }
+
+        .box:hover img{
+            transform: translateX(50px);
+            opacity: 0.5;
+        }
+
+        .box:hover h2{
+            transform: translateX(100px);
+        }
+
+        p{
+            position: absolute;
+            left: 50px;
+            width: 100px;
+            background: darkblue;
+            transition: all 0.3s;
+        }
+
+        /* 注意：Y轴：从上到下为正方向，即向下移动时Y坐标值增加 */
+        .box .p1{
+            top: 100px;
+            transform: translateY(400px);
+        }
+
+        .box:hover .p1{
+            transform: translateY(0px);
+        }
+
+        .box .p2{
+            top: 200px;
+            transform: translateX(500px);
+        }
+
+        .box:hover .p2{
+            transform: translateX(0px);
+        }
+
+        .box .p3{
+            top: 300px;
+            transform: translateX(-500px);
+        }
+
+        .box:hover .p3{
+            transform: translateX(0px);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="../资料/明星1.png">
+        <h2>女明星</h2>
+        <p class="p1">11111111111</p>
+        <p class="p2">22222222222</p>
+        <p class="p3">33333333333</p>
+    </div>
+</body>
+</html>

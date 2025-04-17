@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 盒子模型-边距 */
+        /* padding：内边距，1个值：上下左右全生效；2个值：上下—左右；3个值：上—左右-下；四个值：上-右-下-左    可以设置单一方向：padding-方向：top  bottom  left  right  对应的是内边距的上下左右 */
+        /* 边框border，样式：solid-实线  double-双实线  dashed-长点状线   dotte-点状线    写法和内边距相同  注意边框的宽度计算在宽高的长度之内 */
+        /* margin：外边距   写法和内边距相同   支持负值   水平方向上的居中：margin:0 auto   垂直方向，外边距取最大值（一方有浮动属性则特性失效），水平方向，外边距会进行合并处理 */
+        .box1{
+            width: 500px;
+            height: 300px;
+            background: yellow;
+            text-align: justify;
+            padding: 10px 30px 60px 90px;
+            padding-right: 0%;
+            border:solid 2px red;
+            margin: 30px;
+        }
+        .box2{
+            width: 400px;
+            height: 300px;
+            border:solid 2px blue;
+            margin: 20px;
+            float: left; 
+        }
+        .box3{
+            width: 400px;
+            height: 300px;
+            border:solid 2px green;
+            margin: 20px;
+            float: left;
+        }
+
+        /* 溢出属性 */
+        /* overflow：hidden-溢出隐藏，scroll-显示滚动条，auto-有溢出显示滚动条，inherit-继承父元素效果 */
+        /* 溢出省略号显示条件：1.有宽度，2.溢出隐藏，3.white-space: nowrap强制文本在一行显示，4.text-overflow：ellipsis溢出文本显示省略号 */
+        .yichu{
+            width: 200px;
+            height: 200px;
+            background:yellow;
+            float: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        /* 显示隐藏 */
+        /* 给display重新赋值覆盖掉none */
+        .an{
+            display: none;
+        }
+        .ming:hover .an{
+            display: block;    
+        }
+
+        /* 定位 */
+        /* position：static-静态定位：不受其他属性影响，     relative-相对定位：针对自己的初始位置，移动后依然会占用原位置空间，absolute-绝对定位：没有父元素或父元素没有定位时，参照物是浏览器窗口的第一屏，会释放原来的位置（如果下面有内容会上去），且会脱离margin: 0 auto 的控制 */
+        /* 当position的值 ≠ static 时，设置的left，top属性才生效 */
+        /* 子绝父相：若父元素设置了相对定位，子元素设置了绝对定位，子元素会把父元素的相对定位作为参照物，进行展示 */
+        /* fixed-固定定位，固定在浏览器的当前窗口，滚动会释放原来的位置 */
+        /* sticky-粘性定位，吸顶效果，随着页面滚动粘在设置的页面位置 */
+        /* z-index-层级，值越大，越靠上显示，没有设置定位，z-index就没有意义；绝对定位下，若为父子关系，层级对父无效，若为兄弟关系则有效 */
+        /* 浮动与定位的区别：浮动半脱离，有文字环绕效果，absolute全脱离，不会有环绕效果 */
+        .dingwei1{
+            width: 100px;
+            height: 100px;
+            background: red;
+            /* position: relative; */
+        }
+        .dingwei2{
+            width: 200px;
+            height: 200px;
+            background: blue;
+            /* position: absolute; */
+        }
+        .ding{
+            width: 300px;
+            height: 300px;
+            border:1px solid red;
+            position: relative;
+        }
+        .wie{
+            width: 100px;
+            height: 100px;
+            background: green;
+            position: absolute;
+            left: 150px;
+            top: 150px;
+        }
+        .box4{
+            width: 100%;
+            height: 1500px;
+            background: yellow;
+        }
+        .box5{
+            width: 100px;
+            height: 200px;
+            background: red;
+            position: fixed;
+            right: 0;
+            bottom: 200px;    /* 距离底部的意思 */
+        }
+        .box6{
+            background: blue;
+            width: 100%;
+            height: 100px;
+        }
+        .box7{
+            background: red;
+            width: 500px;
+            height: 50px;
+            margin: 0 auto;
+            position: sticky;
+            top: 0px;       /* 若top设置50px，则滚动屏幕时会显示在离顶部50px的位置 */
+        }
+        .box8{
+            height: 2000px;
+            background: green;
+        }
+        .box9{
+            width: 200px;
+            height: 200px;
+            background: yellow;
+            position: relative;
+            top: 100px;
+            left: 100px;
+            z-index: 1;
+        }
+        .box10{
+            width: 200px;
+            height: 200px;
+            background: blueviolet;
+            position: absolute;
+        }
+        span{
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            /* 给行内元素加上绝对定位元素，就变成块元素了；把行内元素变为块元素的几种方式：1-display:block，2-position:absolute，3-float:left */
+            position: absolute;      
+        }
+        .box11{
+            width: 200px;
+            height: 200px;
+            background: green;
+            float: left;
+            /* position: absolute; */
+            /* 设置绝对定位后，文字环绕效果就取消了 */     
+        }
+        .box12{
+            width: 300px;
+            height: 300px;
+            background-color: brown;
+        }
+    </style>
+</head>
+<body>
+    <!-- 盒子模型-边距 -->
+    <div class="box1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut illo, fugiat totam maxime autem fugit expedita, nihil blanditiis voluptatum libero, necessitatibus natus? Temporibus dicta tempore nam distinctio reiciendis ipsum repudiandae?</div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+
+    <!-- 溢出属性 -->
+    <div class="yichu">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae quo cupiditate animi dicta, hic eum amet possimus nam nisi molestias, repellendus magni ipsum. Ea vero voluptate deleniti vitae praesentium eaque?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste voluptate a perferendis cum molestiae voluptates. Ducimus porro dolore a, nam commodi repellat accusamus soluta praesentium, voluptate asperiores deserunt, illo pariatur.</div>
+    
+    <!-- 元素显示类型 -->
+    <!--
+    有以下默认条件的就是块元素：块元素能力：独占一行的显示 
+    display：block;
+    display: list-item;
+    块元素列举：div，p，ul，li，ol，dl，dt，dd，h1-h6等
+    行内块元素：display:inline-block，既能和别人显示在一行中，也能自己设置自己的宽度和高度，列举：img，input
+    行内元素特性：span-只能设置margin和padding的左右边距，不能设置上下边距
+    -->
+
+    <!-- 显示隐藏 -->
+    <div class="ming">史云飞
+        <div class="an">加油</div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><hr>
+
+    <!-- 定位 -->
+    <div class="dingwei1"></div>
+    <div class="dingwei2"></div>
+    <div class="ding">
+        <div class="wie"></div>
+    </div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <div class="box6"></div>
+    <div class="box7"></div>
+    <div class="box8"></div>
+    <div class="box9"></div>
+    <div class="box10"></div>
+    <br><br><br><br><br><br><br><br><br><br><hr>
+    <span>hello</span>
+    <br><br><br><br><br><br><br><hr>
+    <div class="box11"></div>
+    <div class="box12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet incidunt veritatis placeat eveniet voluptatibus rem consequatur minima quis maiores error laudantium consequuntur iure quae, ex temporibus. Eius quod voluptatum enim!</div>
+</body>
+
+</html>

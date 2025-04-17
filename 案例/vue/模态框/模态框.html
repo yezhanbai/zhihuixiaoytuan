@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+    <style>
+        #overlay {
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #center {
+            background: #ffff;
+            border-radius: 5px;
+            /* 边框圆角 */
+            padding-top: 20px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 30px;
+            width: 290px;
+            height: 160px;
+            position: fixed;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <button @click="isShow=!isShow">模态框</button> 
+        <div id="overlay" v-show="isShow" @click="isShow=!isShow">      <!-- 一开始不显示，给初始值false -->
+            <div id="center" @click.stop>         <!-- 因为冒泡，点击时父节点也会接收到，所以要stop -->
+                用户名：<input >
+                <button @click="isShow=!isShow">登录</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    isShow:false
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount("#box")
+    </script>
+
+</body>
+
+</html>

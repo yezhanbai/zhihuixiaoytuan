@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        span {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <hr>
+    <div>用户名：<input type="text" id="username"></div>
+    <div>密码：<input type="password" id="password"></div>
+    <div><button id="login">登录</button></div>
+    <hr>
+    <input type="password" id="mima">
+    <button id="eyebtn">eye</button>
+    <hr>
+
+    <script>
+        /* 数值转换 */
+        //1000分钟，写成xx:xx的形式
+        var a = 1000
+        var b = parseInt(a / 60)
+        var c = a % 60
+        console.log(b + ':' + c)
+
+
+        /* while */
+        //求1~100所有数字的和
+        var shu = 1
+        var he = 0
+        while (shu <= 100) {
+            he += shu
+            shu++
+        }
+        console.log(he)
+
+
+        /* dowhile */
+        //在弹窗中输入才可关闭
+        // do {
+        //     var res = prompt('请输入你的名字')       //可提示用户进行输入的对话框
+        //     if (res) {
+        //         document.write(res)
+        //     }
+        // } while (!res)
+        //首先需要了解，while里面真就要继续循环，假就结束循环，若res填了，则res为真，此时取反就为假，假就退出循环了，若res没填，则res为假，此时取反就为真，真就要继续循环
+
+
+        /* for */
+        //求1~100所有数字的和
+        var sum = 0
+        for (var i = 1; i <= 100; i++) {
+            sum += i
+        }
+        console.log(sum)
+
+        //九九乘法表
+        for (var d = 1; d <= 9; d++) {
+            for (var e = 1; e <= d; e++) {     //m=1时，开始执行这行代码的循环，直到完毕输出下面的document.write()，再进入for (var m=1; m<=9; m++)计算，之后再进入这行代码循环，再次进入时，又从n=1开始
+                document.write('<span>' + d + '*' + e + '=' + d * e + '</span>')
+            }
+            document.write('<br>')
+        }
+
+
+        /* 对象 */
+        //遍历出数组嵌套数组的值
+        var f = [
+            [1, 2], [3, 4], [5, 6], [7, 8]
+        ];
+        for (var i = 0; i < f.length; i++) {
+            for (var j = 0; j < f[i].length; j++) {
+                console.log(f[i][j]);        //f[i][j]表示f中[i]坐标中，第[j]个值
+            }
+        }
+
+        //有一个通讯录，里面有姓名，号码等属性，要求：编写函数, 函数会检查通讯录中是否存在一个与传入的firstName相同的联系人。如果存在，那么还需要检查对应的联系人中是否存在likes属性。 如果它们都存在，函数返回likes属性对应的值。 如果firstName值不存在，返回"No such contact"。 如果likes属性不存在，返回"No such property"。
+        var contacts = [
+            {
+                "firstName": "Akira",
+                "lastName": "Laine",
+                "number": "0543236543",
+                "likes": ["Pizza", "Coding", "Brownie Points"]
+            },
+            {
+                "firstName": "Sherlock",
+                "lastName": "Holmes",
+                "number": "0487345643"
+            },
+            {
+                "firstName": "Harry",
+                "lastName": "Potter",
+                "number": "0994372684",
+                "likes": ["Hogwarts", "Magic", "Hagrid"]
+            }
+        ];
+        function test1(a, b) {
+            for (var i in contacts) {
+                if (a === contacts[i]["firstName"]) {
+                    return contacts[i][b] || "No such property"
+                }
+            }
+            return "No such contact"
+        }
+        var g = test1('Harry', 'likes')
+        console.log(g)
+
+
+        /* 数组 */
+        //有一个嵌套数组arr和参数a，要求定义一个函数，最后返回一个arr数组中不包含参数a的新数组      
+        //此方法也能数组去重
+        function test2(arr, a) {
+            var arr1 = []
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].indexOf(a) < 0) {
+                    arr1.push(arr[i])
+                }
+            }
+            return arr1
+        }
+        console.log(test2([[3, 2, 3], [1, 6, 8], [4, 13, 26], [19, 3, 9]], 3))
+
+
+        /* 随机数 */
+        //在给定的两个数之间随机取值  
+        function test3(min, max) {
+            if (min > max) {
+                console.error('参数有误')
+                return
+            }
+            return Math.floor(Math.random() * (max - min + 1)) + min         //如果不包含最大值的话，去掉+1
+        }
+        console.log(test3(20, 25))
+
+
+        /* 倒计时 */
+        //题：显示距离2025-6-18东京秒杀的倒计时时间
+        var nowDay = new Date()
+        var lastDay = new Date('2025/6/18')
+        function test4(nowDay, lastDay) {
+            var sub = Math.ceil((lastDay - nowDay) / 1000)        //lastDay-nowDay：时间戳差值，/1000：把时间戳换算成秒
+            var day = parseInt(sub / (24 * 60 * 60))             //总秒除以1天有多少秒，得到天数，并取整
+            var hours = parseInt(sub % (24 * 60 * 60) / (60 * 60))        //总秒除以天数的秒后，取余，再除以1小时的秒数，得到小时数，并取整
+            var minutes = parseInt(sub % (60 * 60) / 60)         //总秒除以1小时的秒数，取余，再除以1分有多少秒，得到分钟数，并取整
+            var seconds = sub % 60           //总秒除以1分钟的秒数，取余，剩下就是1分不到的秒数
+            var shijian = {           //创建对象
+                day: day,
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds
+            }
+            return shijian
+        }
+        setInterval(function () {
+            var nowDay = new Date()        //因为是异步，需要再次导入实时时间，不然时间在一开始就被确定好了
+            var aaa = test4(nowDay, lastDay)
+            box.innerHTML = `距离京东618还有--${aaa.day}天${aaa.hours}时${aaa.minutes}分${aaa.seconds}秒`       //这会显示的控制台上
+        }, 1000)
+
+
+        /* 密码可视 */
+        var passInput = document.getElementById('mima')
+        var eyebtn = document.querySelector('#eyebtn')
+        eyebtn.onclick = function(){
+            console.log(passInput.type)
+            if(passInput.type === 'password'){         //这里需要 ===
+                passInput.type = 'text'   
+            }else{
+                passInput.type = 'password'
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>

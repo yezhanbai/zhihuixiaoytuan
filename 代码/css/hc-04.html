@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /* 最小高度 */
+        .box1{
+            background: red;
+            min-height: 200px;
+        }
+        li{
+            /* 若隐藏，则显示最小高度 */
+            height: 100px;
+        }
+
+        /* 窗口自适应 */
+        /* 设置如下才是相对于窗口，高度100%，即父盒子高度确定，子盒子box的高度设置才有意义 */
+        html,body{
+            height: 100%;
+        }
+
+        /* 两栏布局 */
+        .box2{
+            height: 300px;
+            width: 200px;
+            background: green;
+            float: left;
+        }
+        .box3{
+            height: 300px;
+            background: yellow;
+            /* 计算函数，运算符号前后需留空格 */
+            width: calc(100% - 200px);   
+            float: left;
+        }
+
+        /* 三栏布局 */
+        .box4{
+            width: 300px;
+            height: 300px;
+            background: red;
+            float: left;
+        }
+        .box5{
+            width: calc(100% - 600px);
+            height: 300px;
+            background: aqua;
+            float: left;
+        }
+        .box6{
+            width: 300px;
+            height: 300px;
+            background: blueviolet;
+            float: right;
+        }
+
+        /* 字段集 */
+        /* fieldset-闭合框，legend-闭合框中的缺口，以上两个都支持CSS */
+        fieldset{
+            width: 400px;
+            margin: 0 auto;
+            border: 1px solid blue;
+        }
+        legend{
+            text-align: center;
+            border: 1px solid red;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 最小高度 -->
+    <div class="box1">
+        <ul>
+            <li>1111111</li>
+            <li>1111111</li>
+            <li>1111111</li>
+            <li>1111111</li>
+            <li>1111111</li>
+        </ul>
+    </div>
+
+    <!-- 两栏布局 -->
+    <div class="box2"></div>
+    <div class="box3"></div>
+
+    <!-- 三栏布局 -->
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <div class="box6"></div>
+    
+    <!-- 表单进阶 -->
+    <!-- radio-单选，checked-默认选中，同一个name值是一组，设置id，值给到label标签的for属性，就能实现点击文字选择   checkbox-复选 -->
+    <!-- file-上传文件，disabled-禁用，readonly-只读 -->
+    <!-- 下拉菜单：select支持的属性：size-页面显示个数，multiple-多选    option支持的属性：value-提供给后端需要用到的value值，selected-默认选中 -->
+    <div>
+        <h3>你对kerwin的满意度</h3>
+        <div>
+            <input type="radio" name="aaa" id="manyi" checked><label for="manyi">满意</label>
+        </div>
+        <div>
+            <input type="radio" name="aaa" id="yiban"><label for="yiban">一般</label>
+        </div>
+        <div>
+            <input type="radio" name="aaa" id="bumanyi"><label for="bumanyi">不满意</label>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <h3>你的兴趣爱好</h3>
+        <div>
+            <input type="checkbox" name="bbb" id="chouyan"><label for="chouyan">抽烟</label>
+            <input type="checkbox" name="bbb" id="hejiu" checked><label for="hejiu">喝酒</label>
+            <input type="checkbox" name="bbb" id="tangtou"><label for="tangtou">烫头</label>
+            <input type="checkbox" name="bbb" id="chuiniu"><label for="chuiniu">吹牛</label>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <input type="file" name="" id="">
+        <button disabled>注册</button>
+        <input type="text" readonly value="只读">
+    </div>
+    <hr>
+    <div>
+        <h3>你的收货地址</h3>
+        <select size="1">
+            <option value="cz">常州</option>
+            <option value="wx">无锡</option>
+            <option value="zj">镇江</option>
+            <option value="sz">苏州</option>
+            <option value="hz">杭州</option>
+            <option value="nj" selected>南京</option>
+            <option value="xz">徐州</option>
+        </select>
+    </div>
+    <hr>
+    <div>
+        <h3>多行文本输入框</h3>
+        <!-- cols-可显示的列数，rows-可显示的行数 -->
+        <textarea cols="50" rows="5" placeholder="默认提示语">提前预制好的话</textarea>
+    </div>
+    
+    <!-- 字段集 -->
+    <fieldset>
+        <legend>性别</legend>
+        <input type="radio" name="aaa">男
+        <br>
+        <input type="radio" name="aaa">女
+    </fieldset>
+
+    <br><hr><br>
+
+    <!-- 音频标签 -->
+    <!-- controls-主体，loop-循环，autoplay-自动播放，muted-静音  -->
+    <audio src="/资料/jiejie.wav" controls loop autoplay muted></audio>
+
+    <!-- 视频标签 -->
+    <!-- controls-主体，loop-循环，autoplay-自动播放，muted-静音，poster-海报，视频支持宽高-可行内可CSS -->
+    <video src="/资料/movie.mp4" controls loop muted poster="/资料/小丸子.png" width="500px" height="300px"></video>
+
+    <!-- 增强表单 -->
+    <!-- email-一定要name值，tel-手机端使用会默认呼出数字键盘 -->
+    <!-- range-可设置区间最大值和最小值，value-默认显示位置，step-控制每次滑行长度，可不设置；number-和range设置一致 -->
+    <!-- date-选择年月日，month-选择年月，week-选择周，datetime-local选择年月日时分 -->
+    <!-- autofocus-自动设置焦点，一个页面只能设置一个；pattern-正则表达式，设置后填写值需满足该表达式所设的条件才可提交；multiple-允许填写多个，用英文逗号隔开；required-设置后该字段需必填 -->
+    <form action="">
+        <div>邮箱：<input type="email" name="email"></div>
+        <div>电话号码：<input type="tel" name=""></div>
+        <div>滑块效果：<input type="range" name="range" min="0" max="100" value="0" step="10"></div>
+        <div>数字类型：<input type="number" min="1" max="10" value="5" step="2"></div>
+        <div>
+            日期选择：<input type="date">
+            月份选择：<input type="month">
+            周数选择：<input type="week">
+            当前选择：<input type="datetime-local" name="datetime">
+        </div>
+        <div>用户名：<input type="text" autofocus multiple required pattern="[0-9][A-Z]{3}"></div>
+        <input type="submit">
+    </form>
+</body>
+
+</html>

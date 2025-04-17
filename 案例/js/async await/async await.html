@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="module">
+        import { pajax } from './async await.js'
+        async function text() {
+            try {
+                var obj1 = await pajax({
+                    url: 'http://localhost:3000/news',
+                    data: {
+                        author: "tiechui"
+                    }
+                })
+
+                var obj2 = await pajax({
+                    url: 'http://localhost:3000/comments',
+                    data: {
+                        newsId: obj1[0].id
+                    }
+                })
+                console.log('success', obj2)
+                return obj2            //只有return出去，.then才可以拿到数据，再往后渲染，也可以不return，直接在函数里渲染,此时也不需要在下面.then
+            } catch (err) {
+                console.log("err", err)
+            }
+        }
+            text().then(aaa => {
+                console.log('返回结果', aaa)
+            }).catch(bbb => {
+                console.log('错误', bbb)
+            })
+
+    </script>
+</body>
+
+</html>

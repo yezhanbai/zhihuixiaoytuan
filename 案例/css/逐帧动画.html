@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            /* 图片总长1260px，对应7个图，所以除以7，得到宽180px */
+            width: 180px;
+            height: 300px;
+            margin: 0  auto;
+            background-image: url(/资料/逐帧动画.png);
+            animation: run 1s steps(1,end) infinite;
+        }
+
+        @keyframes run{
+            0%{
+                background-position: 0px 0;
+            }
+            14.3%{
+                background-position: -180px 0;
+            }
+            28.6%{
+                background-position: -360px 0;
+            }
+            42.9%{
+                background-position: -540px 0;
+            }
+            57.2%{
+                background-position: -720px 0;
+            }
+            71.5%{
+                background-position: -900px 0;
+            }
+            85.8%{
+                background-position: -1080px 0;
+            }
+            /* 因为end看不到最后一帧，所以要多设置一帧，才能无缝衔接回到第一帧 */
+            100%{
+                background-position: -1260px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+</html>

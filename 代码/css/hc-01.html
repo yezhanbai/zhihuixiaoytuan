@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS引入，方式一 -->
+    <!-- <link rel="stylesheet" type="text/css" href="../代码/01.css"> -->
+    <style>
+        /* CSS内部样式 */
+        h3 {
+            color: aqua
+        }
+
+        /* CSS引入，方式二 */
+        /* 和内部样式只显示之一 */
+        @import url('/代码/外部/daoru.css');
+
+        .box1 {
+            list-style: none
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 加粗 -->
+    <b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam asperiores reprehenderit sed nostrum sit nemo
+        unde cupiditate enim et sapiente nam sequi consequatur suscipit sint dignissimos vitae autem, facere
+        minus?</b><br><br>
+
+    <!-- 倾斜 -->
+    <i>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab impedit non temporibus maiores fuga, corrupti quod
+        animi amet dicta debitis sapiente eos sit quia praesentium ipsa dolores esse sint dignissimos!</i><br><br>
+
+    <!-- 删除线 -->
+    <s>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime ipsam quasi deleniti, explicabo eos itaque
+        tempora accusantium recusandae nemo porro eum qui eius quaerat consectetur! Veritatis quia molestias illum
+        corrupti.</s><br><br>
+
+    <!-- 下划线 -->
+    <u>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro necessitatibus nisi, cumque accusamus ipsum et
+        quaerat. Minima voluptates ea, amet nulla in possimus nam dolores vero ad. Quasi, quibusdam
+        repudiandae.</u><br><br>
+
+    <!-- 分割线 -->
+    <!-- noshade：去掉阴影 -->
+    <hr color="red" width="1000" align="right" noshade>
+
+    <!-- 段落 -->
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem vel numquam, nam reiciendis voluptatibus tenetur
+        soluta harum porro, enim quos quae magni perspiciatis quis illo eum illum. Excepturi, a itaque!</p>
+
+    <!-- 换行 -->
+    <br><br>
+
+    <!-- 特殊符号 -->
+    <p>我上一节中讲的内容是hr,用法是这样的&lt;hr noshade&gt;</p>
+    <p>&emsp;&emsp;赵钱孙李，周吴郑王</p>
+
+    <!-- div -->
+    <!-- 没有具体含义，用来划分页面的区域，独占一行 -->
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi adipisci dolorem, nemo omnis labore, incidunt
+        hic assumenda, perferendis doloribus exercitationem blanditiis quas odio ad maxime repudiandae qui repellendus
+        quos inventore.</div>
+
+    <!-- span -->
+    <!-- 没有实际意义，用于独立修饰文本内容的时候，不会破坏原来结构，内容有多宽就占用多宽的空间距离 -->
+    <h3>体育<span style="color: gray;">sports</span></h3>
+
+    <!-- 有序列表 -->
+    <!-- type可以为1，a，A，i,I这5种，start可以修改开始计数的起点 -->
+    <ol type="a" start="27">
+        <li>把冰箱打开</li>
+        <li>大象装进去</li>
+        <li>把冰箱关上</li>
+    </ol>
+
+    <!-- 无序列表 -->
+    <ul type="none">
+        <li>把冰箱打开</li>
+        <li>大象装进去</li>
+        <li>把冰箱关上</li>
+    </ul>
+    <!-- 另一种去列表样式的写法 -->
+    <ul class="box1">
+        <li>把冰箱打开</li>
+        <li>大象装进去</li>
+        <li>把冰箱关上</li>
+    </ul>
+
+    <!-- 自定义列表 -->
+    <dl>
+        <dt>我是图片</dt>
+        <dd>我是文字</dd>
+    </dl>
+
+    <!-- 图片 -->
+    <!-- ../表示上一级，../../表示上一级的上一级，只设置宽或高，另一个属性也会等比例缩放 -->
+    <img src="../../资料/洛天依.gif" width="200px" alt="图片加载不出时，显示的提示语" title="相当于图片的备注，鼠标放在图片上可以显示文字，挂掉的图片依然能显示">
+    <br><br>
+
+    <!-- 超链接 -->
+    <!-- _self：在当前窗口打开， _blank：在新窗口打开 -->
+    <a href="https://www.baidu.com" target="_blank"><img src="../../资料/小狗.jpg" title="百度查询">图片和我都可以点击</a>
+
+    <!-- 表格 -->
+    <!-- 行tr，单元格td，外边框border，边框颜色bordercolor，背景颜色bgcolor，横向对齐align（left/right/center），单元格间的间距cellspacing（让线条从空心变成实心），单元格与内容之间的空隙cellpadding，垂直对齐valign（top/middle/bottom） -->
+    <table border="1" width="300" height="100" align="center" bordercolor="red" bgcolor="yellow">
+        <tr bgcolor="orange" height="200" align="center">
+            <td>xiaoxiaofei</td>
+            <td>xiaoxiaofei</td>
+        </tr>
+        <tr height="100">
+            <td bgcolor="red" align="right" valign="top">xiaoxiaofei</td>
+            <td>xiaoxiaofei</td>
+        </tr>
+    </table>
+
+    <!-- 合并表格 -->
+    <!-- 给td；colspan：所要合并的单元格的列数，rowspan：所要合并的单元格的行数 -->
+    <table border="1" width="300" height="300">
+        <tr>
+            <td>不毛</td>
+            <td colspan="2" rowspan="2">魏国</td>
+            <!-- <td>辽东</td> -->
+        </tr>
+        <tr>
+            <td rowspan="2">蜀国</td>
+            <!-- <td colspan="2">西凉</td> -->
+            <!-- <td>幽州</td> -->
+        </tr>
+        <tr>
+            <!-- <td>南中</td> -->
+            <td colspan="2">吴国</td>
+            <!-- <td>荆州</td> -->
+        </tr>
+    </table>
+
+    <!-- 表单＆按钮 -->
+    <!-- 文本框：type="text"    密码框：type="password"    提交框：type="submit"，    <button>提交按钮</button>（最常用）    重置框：type="reset" -->
+    <!-- 属性name必须设置，否则在提交表单时，用户在其中输入的数据不会被发送给服务器，后端也就收不到信息 -->
+    <form action="https://www.baidu.com/" method="get">
+        用户信息：<input type="text" placeholder="用作输入框默认提示信息" name="username" style="width:300px"><br>
+        密码：<input type="password" placeholder="用作输入框默认提示信息" name="mima"><br>
+        <input type="submit" value="自定义按钮名">
+        <button>登录</button>
+        <input type="reset">
+    </form>
+
+    <!-- CSS样式与引入 -->
+    <!-- link和import的区别：1.link属于XHTML标签，@import是CSS提供的一种方式    2.加载顺序：在页面加载时link会同时被加载，而@import会等到页面全部被加载完再加载,这就导致浏览@import加载CSS的页面时开始会没有样式（就是闪烁），网速慢的时候很明显        3.兼容性：@import是CSS2.1提出的，老浏览器不支持，只有在IE5以上的才能识别，link标签无此问题 -->
+    <!-- 样式优先级：行内>内部>外部，特例：!important，最高 -->
+    <!-- 不同的属性会求并集，交集的地方才会考虑优先级 -->
+    <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima magni a provident quaerat recusandae, placeat
+        possimus ratione dolorum voluptas omnis, ipsa sunt, velit vel nam saepe exercitationem soluta voluptatem
+        doloremque.</h3>
+    <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque id ipsum officia odio illum sit, tempore,
+        obcaecati illo esse facere soluta deleniti veniam cum, dignissimos cumque repellat? Ducimus, quod reprehenderit!
+    </h4>
+    <!-- 行内样式 -->
+    <h5 style="color:salmon" !important>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum labore, dicta
+        molestiae quasi voluptate exercitationem totam iste a perspiciatis amet quaerat vero facilis repellat commodi
+        ipsum fuga. Fugit, nesciunt. Culpa?</h5>
+</body>
+
+</html>

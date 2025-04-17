@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+    <script src="/资料/axios.js"></script>
+    <style>
+        li {
+            overflow: hidden;     /* 这个相比clear清除浮动，能去掉ul的样式 */
+            padding: 10px;
+        }
+
+        li img {
+            width: 100px;
+            float: left;
+        }
+    </style>
+</head>
+<!-- 模拟了后端传过来数据，学习往页面插数据 -->
+
+<body>
+    <div id="box">
+        <button @click="handleClick">click</button>
+        <ul>
+            <li v-for="item in datalist" :key="item.id">
+                <img :src="item.img">
+                <div>{{item.nm}}</div>
+                <div>评分：{{item.mk}}</div>
+                <div>主演：{{item.desc}}</div>
+                <div>{{item.showInfo}}</div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    datalist: []
+                }
+            },
+            methods: {
+                handleClick() {
+                    axios('./axios.json').then(res => {
+                        console.log(res)
+                        this.datalist = res.data.data.hot
+                    })
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount('#box')
+    </script>
+</body>
+
+</html>

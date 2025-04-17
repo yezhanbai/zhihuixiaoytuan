@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .header {
+            display: flex;
+            width: 500px;
+        }
+
+        .header li {
+            flex: 1;
+            height: 50px;
+            border: 1px solid black;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .box {
+            height: 200px;
+        }
+
+        .box li {
+            width: 500px;
+            height: 200px;
+            background-color: yellow;
+            display: none;
+        }
+
+        .header .active {
+            background-color: red;
+        }
+
+        .box .active {
+            display: block
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aaa1">
+        <ul class="header">
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ul>
+        <ul class="box">
+            <li class="active">11111</li>
+            <li>22222</li>
+            <li>33333</li>
+            <li>44444</li>
+            <li>55555</li>
+            <li>66666</li>
+        </ul>
+    </div>
+
+    <div class="aaa2">
+        <ul class="header">
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ul>
+        <ul class="box">
+            <li class="active">11111</li>
+            <li>22222</li>
+            <li>33333</li>
+            <li>44444</li>
+            <li>55555</li>
+            <li>66666</li>
+        </ul>
+    </div>
+
+    <script type="module">
+        import AB from './选项卡-面向对象-ES6写法.js'
+        new AB('.aaa1','click')      //可以接收第二个参数，比如这个是在点击时调用，下一个是在鼠标移入的时候调用，形参传type
+        new AB('.aaa2','mouseover')
+    </script>
+</body>
+
+</html>

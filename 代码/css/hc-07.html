@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* rem布局，写法一 */
+        /* 安装px插件，工作区搜 >cssrem 可以将所有px值转成rem单位 */
+        /* 工作区是默认按16px一个基准单位计算的，如果基准单位不是16px，需要在设置中，搜索px，修改root font size基准值 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box1{
+            width: 46.875rem;  
+            height: 6.25rem;
+            background: yellow;
+        }
+    </style>
+</head>
+
+<script>
+    //documentElement.clientWidth ：文档根元素（即 <html> 标签）的内部宽度，这个宽度是以像素为单位测量的，并且不包括边框、外边距（margin）或滚动条
+    //750指的是物理分辨率（真实设计稿的宽度，不用除以2）
+    //16指的是基准font-size
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 750 * 16 + 'px'
+    
+</script>
+
+<body>
+    <!-- rem布局，写法一 -->
+    <div class="box1">赵钱孙李</div>
+
+    <!-- 
+    总结步骤：
+        1.量取设计稿长度，写在公式的除数上
+        2.写在宽高上，需写成rem（工具自动转）
+        3.确认基准font-size是不是16px，不是需要修改乘数，以及工作区的基准值
+
+    -->
+</body>
+
+</html>

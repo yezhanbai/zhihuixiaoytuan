@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 层级选择器 */
+        /* >：所有亲儿子      +：当前元素后面的第一个亲兄弟       ~：当前元素后面的所有亲兄弟 */
+        .box>li {
+            border: 1px solid red;
+        }
+
+        .child1+li {
+            background: yellow;
+        }
+
+        .child2~li {
+            background: green;
+        }
+
+        /* 属性选择器 */
+        /* div[class]表示div下有class属性的会被选择上；如果标签中有多个属性，只满足一个属性无法生效，=号是完全匹配的；不止class，像input，div等标签，都可以设置，~=：包含就匹配 */
+        /*  模糊匹配：class^b-开头是b的被匹配出来 ，class$b-结尾是b的被匹配出来，class*b-包含b的被匹配出来，如果属性值是数字，需要加引号；可以多条一起设置，用逗号隔开 */
+        div[class*='3'],
+        p[class*='2'] {
+            background: orange;
+        }
+
+        /* 结构伪类选择器 */
+        /* :last-child：最后一个孩子，:first-child：第一个孩子，:nth-child()：括号里填第几个孩子，偶数-2n或even，奇数-2n+1或2n-1或odd，:only-child：只有一个孩子的生效，:empty：空选择器，有空格回车都不算空，:root,body{}：根节点 */
+        .box4 {
+            width: 940px;
+            height: 100px;
+            margin: 0 auto;
+            background: yellow;
+        }
+
+        .box4 div {
+            width: 300px;
+            height: 100px;
+            background: red;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .box4 div:last-child {
+            margin-right: 0;
+        }
+
+        .box5 li:nth-child(odd) {
+            background: green;
+        }
+
+        /* ui状态伪类选择器 */
+        /* ::selection-被选中时的展示，:enabled-应用状态下的被设置，:disabled-禁用状态下的被设置，:focus-被聚焦状态下的被设置 */
+        /* appearance: none：移除元素的默认样式，移除后需自己添加样式 */
+        .box6::selection {
+            background: yellow;
+        }
+
+        input:enabled {
+            background: red;
+        }
+
+        input:disabled {
+            background: lightblue;
+        }
+
+        input:focus {
+            background: blue;
+        }
+
+        input[type=checkbox] {
+            appearance: none;
+            width: 50px;
+            height: 50px;
+            border: 2px solid black;
+        }
+
+        /* 否定和动态伪类选择器 */
+        /* :not-除了xxx以外的都生效 */
+        .box7 li:not(:nth-child(even)) {
+            background: red;
+        }
+
+        /* 圆角边框 */
+        /* border-radius：圆角效果，如果是设为圆，只需设置为盒子长度的一半，注意：如果盒子有边框，要连同边框一起计算盒子的一半，如果是写成%，就不用自己计算了，图省事可以直接写成100% */
+        /* 半圆：属性名，必须垂直方向的写在前面 */
+        .box8 {
+            width: 200px;
+            height: 200px;
+            background: green;
+            margin: 0 auto;
+            border-radius: 100%;
+        }
+
+        .box9 {
+            width: 200px;
+            height: 100px;
+            background: green;
+            margin: 0 auto;
+            border-top-left-radius: 100px;
+            border-top-right-radius: 100px;
+        }
+
+        .box10 {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: green;
+            border-top-right-radius: 100%;
+        }
+
+        /* 怪异盒模型 */
+        /* box-sizing: border-box;  怪异盒模型，设置内边距和边框，会挤压内部空间，内部＋内边距+边框才等于200*200，始终保持原来的宽高不变 */
+        .box11 {
+            width: 200px;
+            height: 200px;
+            background: red;
+            margin: 0 auto;
+            padding: 30px;
+            border: 10px solid black;
+            box-sizing: border-box;
+        }
+
+        /* 弹性盒模型 */
+        /* 弹性盒是一种新的布局方式，特别适合移动端布局 */
+        /* display: flex;    弹性盒模型：1.会让子元素默认横向排列，2.行业元素会变为块级元素，变得支持宽和高，3.只有一个元素的时候，margin：auto自动居中，4.一行元素过多，仍然会在一行排列，挤压原有的宽度和高度 */
+        /* flex-direction：修改X轴方向：row-使子元素水平排列，column-使子元素竖直排列，row-reverse-使子元素横向反向排列，column-reverse-使子元素竖直反向排列 */
+        /* justify-content：修改主轴对齐方式：flex-start-左对齐，flex-end-右对齐，center-居中对齐，space-between-两端对齐，space-around-距离环绕，左右两端的距离是中间盒子之间距离的一半 */
+        /* align-items：修改Y轴方向：flex-start-上对齐，flex-end-下对齐，center-居中对齐 */
+        /* flex-wrap：折行     align-content：修改折行后的行间距：flex-start，flex-end，center，space-around，space-between */
+        /* align-self：盒子形状：baseline-自适应成内容的大小，stretch-拉伸 */
+        /* order：值不设置，默认是0，设置得越大越靠后，越小越靠前 */
+        .box12 {
+            width: 500px;
+            height: 500px;
+            border: 2px solid black;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            align-content: space-between;
+        }
+
+        .box12 span {
+            width: 100px;
+            height: 100px;
+            border: 1px dashed red;
+        }
+
+        .box14 {
+            width: 500px;
+            height: 500px;
+            border: 2px solid black;
+            margin: 100px auto;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .box14 div {
+            width: 100px;
+            /* height: 100px; */
+            border: 1px dashed red;
+            box-sizing: border-box;
+        }
+
+        .box14 div:nth-child(1) {
+            height: 100px;
+        }
+
+        .box14 div:nth-child(2) {
+            align-self: baseline;
+            order: 1;
+        }
+
+        .box14 div:nth-child(3) {
+            align-self: stretch;
+        }
+
+        .box14 div:nth-child(4) {
+            align-self: center;
+        }
+
+        .box14 div:nth-child(5) {
+            align-self: flex-end;
+            order: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 层级选择器 -->
+    <ul class="box">
+        <li>11111</li>
+        <ul>
+            <li>22222</li>
+            <li>33333</li>
+        </ul>
+        <li class="child1">44444</li>
+        <li class="child2">55555</li>
+        <li>77777</li>
+        <ul>
+            <li>66666</li>
+        </ul>
+        <li>88888</li>
+    </ul>
+
+    <!-- 属性选择器 -->
+    <div class="box1">11111</div>
+    <div class="box2">22222</div>
+    <div class="box3">33333</div>
+    <p class="p1">44444</p>
+    <p class="p2">55555</p>
+    <p class="p3">666666</p>
+
+    <!-- 结构伪类选择器 -->
+    <div class="box4">
+        <div></div>
+        <div></div>
+        <div class="last"></div>
+    </div>
+    <ul class="box5">
+        <li>11111</li>
+        <li>22222</li>
+        <li>33333</li>
+        <li>44444</li>
+        <li>55555</li>
+    </ul>
+
+    <!-- ui状态伪类选择器 -->
+    <div class="box6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est eaque molestiae accusantium iusto
+        quos sapiente, tempora praesentium, consequuntur doloribus, architecto quibusdam ullam sit provident doloremque.
+        Quaerat minima est ab alias.</div>
+    用户名：<input type="text" name="" id="">
+    <input type="submit" disabled><br>
+    <input type="checkbox">
+
+    <!-- 否定和动态伪类选择器 -->
+    <ul class="box7">
+        <li>11111</li>
+        <li>22222</li>
+        <li>33333</li>
+        <li>44444</li>
+        <li>55555</li>
+    </ul>
+
+    <!-- 圆角边框 -->
+    <div class="box8"></div>
+    <hr>
+    <div class="box9"></div>
+    <hr>
+    <div class="box10"></div>
+    <hr>
+
+    <!-- 怪异盒模型 -->
+    <div class="box11"></div>
+
+    <!-- 弹性盒模型 -->
+    <div class="box12">
+        <span>00000</span>
+        <span>11111</span>
+        <span>22222</span>
+        <span>33333</span>
+        <span>44444</span>
+        <span>55555</span>
+        <span>66666</span>
+        <span>77777</span>
+        <span>88888</span>
+        <span>99999</span>
+    </div>
+
+    <div class="box14">
+        <div>11111</div>
+        <div>22222</div>
+        <div>33333</div>
+        <div>44444</div>
+        <div>55555</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        html,body{
+            width: 2000px;
+            height: 2000px;
+        }
+
+        #box1{
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            border: 5px solid red;
+            background: yellow;
+            /* box-sizing: border-box;     加box-sizing对计算没有影响 */
+            margin: 50px;
+            border-left-width: 50px;
+            border-top-width: 80px;
+        }
+
+        #box3{
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+        }
+
+        #box4{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+
+        #box5{
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+
+        #box6{
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+            margin: 100px;
+        }
+
+        p{
+            width: 100px;
+            height: 100px;
+            margin: 30px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 元素尺寸 -->
+    <div id="box1"></div>
+
+    <!-- 事件 -->
+    <div id="box2"></div>
+    <button id="btn1">抽奖</button>
+
+
+    <ul id="list">
+        <li>
+            11111
+            <button>add</button>
+        </li>
+    </ul>
+    <br><hr><br>
+
+    <button id="btn2">click</button>
+    <br><hr><br>
+
+    <div id="box3">
+        <div id="box4">mouse</div>
+    </div>
+    <br><hr><br>
+
+    <input type="text" name="" id="username">
+    <br><hr><br>
+
+    <form action="" id="myform">
+        <input type="text" name="" id="username1">
+        <input type="reset">
+        <input type="submit" value="提交">
+    </form>
+    <br><hr><br>
+
+    <div id="box5"></div>
+    <br><hr><br>
+
+    <div id="box6">
+        <p></p>
+    </div>
+
+    <script>
+        /* 元素尺寸 */
+        console.log(box1.offsetWidth,box1.offsetHeight)         //内容+内边距+边框的长度       *值不对就是浏览器缩放问题     
+        console.log(box1.clientWidth,box1.clientHeight)         //内容+内边距
+        
+        console.log(box1.offsetLeft,box1.offsetTop)         //offsetLeft：距离页面左边的偏移量       offsetTop：距离页面上边的偏移量      参考点：第一个遇到的有定位的父节点；如果myparent有定位，就会计算到myparent的偏移量，如果父级元素都没有定位，偏移量就是相对于body
+        console.log(box1.clientLeft,box1.clientTop)         //内容+内边距到边框的距离，其实就是边框的宽度
+
+        console.log(window.innerWidth,innerHeight)         //包含滚动条的宽高
+        console.log('宽度',document.documentElement.clientWidth)         //不包含滚动条的宽度
+        console.log('高度',document.documentElement.clientHeight)        //不包含滚动条的高度
+
+
+        /* 事件 */
+        box2.onclick = function(){        //写法一，主流    dom0
+        } 
+        box2.addEventListener('click',function(){        //写法二     dom2
+        })
+
+        btn1.onclick = function(){
+            console.log('谢谢惠顾')
+            // this.disabled = 'disabled'      //抽奖以后，按钮置灰
+            this.onclick = null      //事件解绑
+        }
+
+        list.onclick = function(evt){
+            console.log(evt.target)         //evt.target：当前事件源头，表示你点击的目标，当触发点击事件的时候，点在哪个元素上，target就是哪个元素
+        }
+
+        //鼠标事件
+        btn2.ondblclick = function(){
+            console.log('双击执行')
+        }
+        btn2.oncontextmenu = function(){
+            console.log('右键执行，自定义右键菜单')
+        }
+        document.oncontextmenu = function(evt){
+            console.log('右键页面执行')
+            // evt.preventDefault()            //不显示原右键内容
+        }
+        box3.onmousedown = function(){
+            console.log('鼠标按下')
+        }
+        box3.onmousemove = function(){
+            console.log('鼠标移动')
+        }
+        box3.onmouseup = function(){
+            console.log('鼠标抬起')
+        }
+        box3.onmouseover = function(){
+            console.log('移入')
+        }
+        box3.onmouseout = function(){
+            console.log('移出')
+        }
+
+        //键盘事件
+        username.onkeydown = function(){
+            console.log('按下键盘','判断是不是回车键')
+        }
+        username.onkeyup = function(){
+            console.log('抬起键盘','判断是不是回车键')
+        }
+
+        //表单事件
+        username1.onfocus = function(){
+            console.log('获取焦点')
+        }   
+        username1.onblur = function(){
+            console.log('失去焦点')
+        }
+        username1.onchange = function(){
+            console.log('失去焦点时，和获取焦点时的内容对比，有改变才会触发')          
+        }
+        username1.oninput = function(){
+            console.log('每次输入都会触发，常用于模糊搜索')        
+        }
+        myform.onsubmit = function(){
+            console.log('submit','点击提交触发')         
+            return false         //阻止提交后端
+        }
+        myform.onreset = function(){      
+            console.log('点击重置触发')    
+        }
+
+        //触摸事件    移动端
+        box5.ontouchstart = function(){
+            console.log('触屏点击')        
+        }
+        box5.ontouchmove = function(){
+            console.log('按住滑动')        
+        }
+        box5.ontouchend = function(){
+            console.log('触屏点击状态下，松开触发')      
+        }
+        box5.ontouchcancel = function(){
+            console.log('被打断触屏状态时触发，比如突然来电话')      
+        }
+
+        //事件对象-鼠标事件
+        /* evt：这个参数代表的是一个事件对象，它包含了事件发生时的各种信息。不同的编程环境和库对 evt 或 event 对象的定义可能有所不同，但一般来说，它们会包含以下一些常见的属性和方法：
+            type: 事件的类型（例如，'click', 'keydown', 'load' 等）。
+            target: 触发事件的元素或对象。
+            currentTarget: 事件监听器被绑定到的元素或对象。
+            preventDefault(): 取消事件的默认行为。
+            stopPropagation(): 阻止事件进一步冒泡或捕获。
+            timeStamp: 事件创建的时间戳。 */
+        box6.onclick = function(evt){       
+            console.log(evt.clientX,evt.clientY)            //距离浏览器可视窗口的，左上角的坐标
+            console.log(evt.pageX,evt.pageY)                //距离整个页面，左上角的坐标
+            console.log(evt.offsetX,evt.offsetY)          //距离触发元素的，左上角的坐标值   此处虽然定义的是box6，但如果点在P标签里，就是相对于P自己到左上角的坐标值
+        } 
+        
+    </script>
+</body>
+</html>

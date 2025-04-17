@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="promise.js"></script>
+    <script>
+        pajax({
+            url: 'http://localhost:3000/news',
+            data: {
+                author: "kerwin"
+            }
+        }).then(aaa => {
+            return pajax({
+                url: 'http://localhost:3000/comments',
+                data: {
+                    newsId: aaa[0].id
+                }
+            })
+        }).then(aaa=>{
+            console.log(aaa)           //上面没return，这里就拿不到结果
+        }).catch(bbb=>{
+            console.log('error',bbb)
+        })
+    </script>
+</body>
+
+</html>

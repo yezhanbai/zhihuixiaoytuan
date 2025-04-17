@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 元素空间占比 */
+        /* flex:1   占满剩余空间  如果都设置了flex，则会根据大小分配空间，比如盒子1和3是1，盒子2是10，则盒子1和3各占12分之1，盒子2占12分之10 */
+        .box1 {
+            width: 500px;
+            height: 500px;
+            border: 2px solid black;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .box1 div {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+
+        .div2 {
+            flex: 10;
+        }
+
+        .div1,
+        .div3 {
+            flex: 1;
+        }
+
+        /* 关于图标库的使用 */
+        span.icon-dianzan {
+            font-size: 40px;
+            color: red;
+        }
+
+        /* 多列布局 */
+        /* column-count：控制显示的列数，column-gap：调整列之间的间距，column-rule：列边框，column-fill：balance-每块区域内容尽可能的高度统一，auto-一块区域内容填满才会到下一块区域显示，column-width：列宽，column-span：all  横跨所有列      补充：break-inside: avoid  不允许盒子内部折行 */
+        .box2{
+            height: 300px;
+            background: yellow;
+            column-count: 8;
+            column-gap: 50px;
+            column-rule: 2px solid red;
+            column-fill: balance;
+            /* column-width: 500px; */
+        }
+        .box2>h1{
+            column-span: all;
+            text-align: center;
+        }
+
+        /* 关于移动端页面缩放 */
+        @media screen and (max-width:1000px) and (min-width:500px){   /* 最大是1000px，最小是500px时，在这个区间范围内 */
+            body{
+            background: red;
+            }
+        }
+
+        /* 响应式布局 */
+        /* 宽比高大，默认是横屏状态，宽比高小，默认是竖屏状态      orientation:portrait-在竖直状态下，状态的显示      orientation:landscape-在横着状态下，状态的显示 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box3 {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .box4 {
+            height: 100px;
+            background: yellow;
+            border: 2px solid red;
+            box-sizing: border-box;
+            width: 33.33%;
+        }
+
+        @media screen and (orientation:portrait) {
+            .box4 {
+                width: 33.333%;
+            }
+        }
+
+        @media screen and (orientation:landscape) {
+            .box4 {
+                width: 20%;
+            }
+        }
+
+        /* em和rem */
+        /* em：相对单位，相对于父元素的字体大小，假如父元素字体大小是16px，则1em就是16px    rem：相对单位，相对于根元素（html）字体大小，是一种等比例缩放布局 */
+        .box5{
+            border: 1px solid red;
+            font-size: 5rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 元素空间占比 -->
+    <div class="box1">
+        <div class="div1"></div>
+        <div class="div2"></div>
+        <div class="div3"></div>
+    </div>
+
+    <!-- 关于图标库的使用 -->
+    <!-- https://www.iconfont.cn/   素材库-官方图标库-添加购物车-添加至项目-解压-复制到vscode-打开文件下的html-用中间的引入方式 -->
+    <link rel="stylesheet" href="/资料/图标库/iconfont.css">
+    <span class="iconfont icon-dianzan"></span>
+
+    <!-- 关于移动端页面缩放 -->
+    <!-- 设计稿：给的物理像素（为了更清晰的页面），开发时需要等比例缩放宽高 -->
+    <!-- 
+        width：指定视口的宽度，通常设置为device-width以匹配设备的实际宽度。
+        initial-scale：定义页面加载时的初始缩放级别。值为1表示没有缩放，即1:1的比例。
+        maximum-scale、minimum-scale：限制用户缩放的最大和最小比例。
+        user-scalable：允许或禁止用户手动缩放页面。 
+    -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
+        这行代码告诉浏览器保持页面宽度等于设备宽度，并且不允许用户缩放页面。 -->
+    <!-- 对于移动端，拿到设计稿，量出的宽高都默认除以2进行开发 -->
+    <!-- 要做成随着页面缩放自动变化，开发时需用以下方式：
+        1.相对单位
+        em 和 rem: em是相对于其直接父元素的字体大小，而rem是相对于根元素（HTML）的字体大小。如果根元素的字体大小改变了，所有使用rem定义尺寸的元素也会相应调整。
+        vw (viewport width) 和 vh (viewport height): 这些单位基于视窗的宽度和高度，1vw等于视窗宽度的1%，1vh等于视窗高度的1%。当视窗大小改变时，使用这些单位的元素会相应地调整。
+        vmin 和 vmax: vmin是取vw和vh中的较小值，而vmax是取较大值。这有助于创建与视窗比例相关的布局，适用于响应式设计
+        2.百分比 (%)
+        百分比单位也是相对的，它依赖于父元素的尺寸。例如，一个元素设置为宽度50%，那么它的宽度将是其父容器宽度的一半。这种单位非常适合创建流体网格系统，在页面缩放时，这些元素会根据父容器的尺寸变化而调整
+        3.流体媒体对象
+        图片、视频等媒体文件：如果给图片或其他嵌入式媒体设置了最大宽度（如max-width: 100%;），它们将不会超出包含它们的容器，并且会随容器的宽度调整自身的显示尺寸
+        4.弹性盒子布局 (Flexbox) 和 网格布局 (CSS Grid)
+        弹性盒子布局允许子元素根据可用空间自动调整大小。即使不明确指定尺寸，子元素也可以根据规则填充剩余空间
+        网格布局提供了更复杂的方式管理页面布局，让开发者可以定义行和列的尺寸，以及如何分配空间。这些布局特性也能够在页面缩放时自适应调整
+    -->
+
+    <!-- 多列布局 -->
+    <div class="box2">
+        <h1>王者荣耀</h1>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut incidunt iusto blanditiis repudiandae quas consequatur, at unde aliquam. Fugiat velit quos corporis eum illo voluptatibus earum possimus, placeat nam rem!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sapiente iste voluptas inventore dolor velit culpa reiciendis expedita officia vel repellendus optio minima laborum quia, beatae animi suscipit. Veritatis, quis?
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus, sapiente eaque. Doloribus alias quibusdam laborum repellat provident officia hic facilis commodi perferendis magnam accusantium incidunt, quis autem mollitia? Voluptates, nemo.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos maiores ratione omnis architecto dolores sint praesentium iure fugit, adipisci, possimus laboriosam ipsam veniam suscipit exercitationem. Harum repellendus corporis corrupti nobis?
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, repudiandae. Totam quisquam fuga saepe quia quaerat illo sequi impedit ad architecto nam expedita ipsum voluptatibus, non mollitia culpa eaque officiis.
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est vero ipsum delectus amet veniam assumenda, iusto vitae ab fugit repellendus sunt! Sapiente architecto vero dicta quasi dignissimos, iste dolor eum.
+    </div>
+    <br><hr><br>
+
+    <!-- 响应式布局 -->
+    <div class="box3">
+        <div class="box4"></div>
+        <div class="box4"></div>
+        <div class="box4"></div>
+        <div class="box4"></div>
+        <div class="box4"></div>
+        <div class="box4"></div>
+    </div>
+    <br><hr><br>
+
+    <!-- em和rem -->
+    <div class="box5">
+        <p>赵钱孙<span>李</span></p>
+    </div>
+
+</body>
+
+</html>

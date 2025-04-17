@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 导出，导入 -->
+    <script type="module">       //按照模块化的思路来导入export模块    type="module"必须加，不然不成功
+    import {A,B} from '../../资料/导出导入.js'        //导入
+    import C from '../../资料/导出导入.js'
+    A(),B(),C()
+    </script>
+
+    <script>
+        /* 面向对象 */
+        /* 
+        定义：面向对象不是语法，是一个思想，是一种编程模式
+        面向过程：关注着过程的编程模式    本质：自己做饭，从买菜，洗菜，切菜，烧菜一步一步来
+        面向对象：关注着对象的编程模式    本质：做一个饭店出来，通过饭店可以批量的，生产这种菜，这些菜可以相似，也可以根据不同口味定制
+        两者的区别：一个做菜，一个做好了菜，随意再搭配客人喜欢吃的
+        面向对象编程的特性：
+        1. 封装
+        封装是把客观事物封装成抽象的类，并隐藏实现细节，使得代码模块化。比如，我们可以把“汽车”这个客观事物封装成一个类，这个类有颜色、型号等属性，有启动、加速、刹车等方法，而这些属性和方法的具体实现则被隐藏起来，使用者只需要知道这个类有哪些属性和方法，不需要知道这些方法是如何实现的。
+        2. 继承
+        继承是面向对象编程的另一个重要特性，它提供了一种无需重新编写，使用现有类的所有功能并进行扩展的能力。比如，我们可以定义一个“电动车”类，它继承了“汽车”类，就自动拥有了“汽车”类的所有属性和方法，比如颜色、型号等属性，启动、加速、刹车等方法，然后我们还可以在“电动车”类上增加一些新的属性和方法，比如电池容量、充电方法等。
+        3. 多态
+        多态是指同一操作作用于不同的对象，可以有不同的解释，产生不同的执行结果。比如，我们定义了一个“汽车”类，它有一个“启动”方法，然后我们又定义了一个“电动车”类，它继承了“汽车”类，也有一个“启动”方法，但是“电动车”类的“启动”方法的实现可能与“汽车”类的不同，这就是多态。
+        */
+
+        //自定义构造函数      
+        function CreateObj(name){        //像个加工厂，拿到实参，按里面的方法进行加工
+            console.log(this)            
+            this.name = name          
+            this.meterial = []
+            this.cook = function(){
+            }
+        }
+        var obj1 = new CreateObj('蒸羊羔')     //加new，变成构造函数
+        var obj2 = new CreateObj('烧花鸭')
+        console.log(obj1,obj2)         //凡是通过构造函数创建出的新对象，都叫做这个构造函数的实例
+        obj2.name = '蒸熊掌'           //由构造函数创建的实例也和其他对象一样，它的属性可以被访问和修改
+        console.log(obj2)
+
+        function Test1(name){        //君子协定—构造函数首字母大写，名字自定义；另外，构造函数不写return
+            console.log(this)     
+            this.name = name         //构造函数内的 "this" 一直指向创建的对象，如果不是构造函数，this指向的是window
+            this.cook = function(){
+                console.log(this.name)
+            }
+        }
+        var obj3 = new Test1('kerwin')     //this本指向new完之后的实例化对象，又因为new完之后的对象指向了obj3这个变量，所以也可以说是指向了obj3这个变量了
+        obj3.cook()
+        console.log(obj3)   
+
+        //两种写法
+        //ES5
+        function CreateObj1(name){
+            this.name = name
+        }
+        CreateObj1.prototype.abc = function(){
+            console.log(this.name,'hello')
+        }   
+        var obj4 = new CreateObj1('kerwin')
+        obj4.abc()
+
+        //ES6
+        class CreateObj2{
+            constructor(name){       //构造器函数，属性挂载的地方
+                this.name = name
+            }
+            abc(){                //它也有共享内存的作用
+                console.log(this.name,'hello')
+            }
+        }
+        var obj5 = new CreateObj2('xiaoxiaofei')
+        obj5.abc()
+
+        //继承 --- ES5写法    
+        //组合继承 = 构造函数继承 + 原型继承
+        function Person(name, age) {            //已知现有一个构造函数
+            this.name = name
+            this.age = age
+        }
+        Person.prototype.say = function () {
+            console.log(this.name, 'hello')
+        }
+        var obj6 = {
+            grade: 100
+        }
+        Person.call(obj6,'kerwin',100)         //用了call()方法，this指向obj6，变成obj6.name = name  obj6.age = age
+        console.log(obj6)
+
+        //构造函数继承 --- 只能继承属性
+        function Student(name, age, grade) {
+            Person.call(this,name,age)       //call()方法，使得Person里的this，变成了Stusent里的this，第二个参数开始又取的Person里面的定义，达成继承效果，
+            this.grade = grade          //这是自己的内容     
+        }
+
+        //原型继承 --- 继承方法
+        Student.prototype = new Person()        //直接继承原型      此时Student.prototype是对象了    会有几个废料值，但是原型链的原理，会先找自身的属性，所以不用管
+        
+        Student.prototype.printGrade = function () {        //在原型上加自己的内容
+            console.log(this.name, this.grade)
+        }
+
+        // Student.prototype.say = function(){        //如果不要继承过来的方法，自己重新定义，会覆盖，注意名字
+        //     // console.log(this.name,this.grade)
+        //     console.log(this.name,'你好')
+        // }
+
+        //增强原来的方法
+        Student.prototype.say2 = function () {
+            this.say()           //调用之前老的say
+            console.log(this.name, '你好')
+        }
+        //增强的另一种写法
+        // Student.prototype.say = function(){
+        //     Person.prototype.say.call(this)             //前提就是怎么把原来的say给拿过来
+        //     console.log(this.name,'你好')
+        // }
+
+        var obj7 = new Student('kerwin',100,100)
+        obj7.say2()
+        obj7.printGrade()
+
+        //继承 --- ES6写法
+        //父类
+        class AAA{
+            constructor(name,age){
+                this.name = name
+                this.age = age
+            }
+            say(){
+                console.log(this.name,'hello')
+            }
+        }
+
+        //子类
+        class BBB extends AAA{           //这行代码表示BBB继承了AAA
+            constructor(name,age,grade){
+                super(name,age)        //超类     类似ES5的Person.call(this,name,age)   super必须写在第一行
+                this.grade = grade
+            }
+            //覆盖&增强
+            say(){
+                super.say()        //不加这个就是覆盖，加了就是增强
+                console.log(this.name,'你好')
+            }   
+        }
+        var obj8 = new BBB('shiyunfei',200,300)
+        console.log(obj8)
+        obj8.say()
+
+    </script>
+</body>
+</html>

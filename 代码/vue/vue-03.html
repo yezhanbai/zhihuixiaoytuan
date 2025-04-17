@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+</head>
+
+<body>
+    <!-- 数组变动侦测 -->
+    <!-- Vue 能够侦听响应式数组的变更方法，并在它们被调用时触发相关的更新。这些变更方法包括：push()，pop()，shift()，unshift()，splice()，sort()，reverse()
+    对于一些不可变（不会改变原数组）方法，例如 lter()，concat()，slice()，map()和 filter()等，这些都不会更改原数组，而总是返回一个新数组。当遇到的是非变更方法时，我们需要将旧的数组替换为新的，只有对原数组产生影响，Vue才能侦测到 -->
+    <div id="box">
+        <button @click="handeleMap">click</button>
+        <ul>
+            <li v-for="item in datalist" :key="item">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    datalist: ['111', '222', '333']
+                }
+            }, methods: {
+                handeleMap() {
+                    this.datalist = this.datalist.map(item =>        //map方法不会改变原数组，而是创新新数组，所以map后需要重新赋值给原数组
+                        'kerwin' + item)
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount("#box")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 事件处理器 -->
+    <div id="box1">
+        {{count}}
+        <!-- 内联事件处理器 -->
+        <button @click="count++">add</button>
+        <button @click="handleAdd()">add1</button> <!-- 函数调用，功能最强 -->
+        <!-- 方法事件处理器 -->
+        <button @click="handleAdd1">add2</button> <!-- 函数名，点击后，由vue执行方法，函数响应 -->
+        </ul>
+    </div>
+    <script>
+        var obj1 = {
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                handleAdd() {
+                    this.count++
+                },
+                handleAdd1(evt) {
+                    console.log(evt.target)
+                    this.count++
+                }
+            }
+        }
+        var app1 = Vue.createApp(obj1).mount("#box1")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 事件修饰符：v-on -->
+    <!-- Vue为 v-on 提供了事件修饰符。修饰符是用 . 表示的指令后缀
+    包含以下这些：.stop:阻止事件冒泡     .prevent:阻止默认行为      .self:事件源是我自己才会触发，别人冒上来的不执行       .capture:在捕获阶段会触发      .once:一次性的触发     .passive:用来改善移动端设备的滚屏性能 -->
+    <div id="box2">
+        <ul @click="handUlClick()">
+            <li @click.stop="handleClick1()">点击1</li>
+            <li @click="handleClick2()">点击2</li>
+        </ul>
+
+        <form action="" @submit.prevent="handleSubmit">
+            <button type="submit">登录</button> <!-- 点击登录时，会默认向后端提交数据，如果提交前要校验输入内容，就要阻止此默认行为 -->
+        </form>
+
+        <button @click.once="handleStar">抽奖</button>
+    </div>
+    <script>
+        var obj2 = {
+            data() {
+                return {
+                    count: 0,
+                    isOnce: true
+                }
+            },
+            methods: {
+                handUlClick() {
+                    console.log("ul-click")
+                },
+                handleClick1() {
+                    console.log(1111111)
+                },
+                handleClick2() {
+                    console.log(2222222)
+                },
+
+                handleSubmit() {
+                    console.log("校验相关工作")
+                },
+
+                handleStar() {
+                    console.log("一等奖")
+                }
+            }
+        }
+        var app2 = Vue.createApp(obj2).mount("#box2")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 事件修饰符：键盘 -->
+    <!-- Vue 为一些常用的按键提供了别名：.enter   .tab   .delete (捕获“Delete”和“Backspace”两个按键)   .esc   .space   .up    .down    .left   .right -->
+    <div id="box3">
+        <!-- keyup事件在用户释放键盘上的键时触发 -->
+        <input type="text" v-model="mytest" @keyup.enter="handleKeyup1">
+        <input type="text" v-model="mytest" @keyup.enter.ctrl="handleKeyup2"> <!-- 可以组合使用，比如.enter.ctrl，必须两个同时按下 -->
+        <input type="text" @keyDown.a="handleTest"> <!-- 输入a键触发，可以用来自定义按键 -->
+    </div>
+
+    <script>
+        var obj3 = {
+            data() {
+                return {
+                    mytest: ""
+                }
+            },
+            methods: {
+                handleKeyup1(evt) {
+                    console.log(evt.keyCode)        //keyCode：键盘编码
+                },
+                handleKeyup2(evt) {
+                    console.log(evt.keyCode)
+                },
+                handleTest() {
+                    console.log("a键")
+                }
+            }
+        }
+        var app3 = Vue.createApp(obj3).mount('#box3')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 表单输入绑定 -->
+    <div id="box4">
+        <textarea v-model="mytext" cols="30" rows="10"></textarea> <!-- 多行文本 -->
+
+        <h2>登录页面-复选框</h2>
+        <div>
+            <input type="text" v-model="username">
+            <input type="checkbox" v-model="isChecked">记住用户名
+            <button @click="handleClick">登录</button>
+        </div>
+
+        <h2>调查问卷/个人信息/爱好-复选框</h2>
+        <div>
+            你喜欢的运动：{{favList}}
+            <input type="checkbox" v-model="favList" value="aaa">篮球 <!-- 对于多选框，会双向绑定自动生成一个数组（重要），数组里的值为value值，标志勾了这一项 -->
+            <input type="checkbox" v-model="favList" value="bbb">足球 <!-- 如果把favList赋值给aaa，bbb，ccc，则全选按钮勾上，反之全选取消 -->
+            <input type="checkbox" v-model="favList" value="ccc">乒乓球
+            <button>提交</button>
+        </div>
+
+        <h2>调查问卷/个人信息/爱好-单选框</h2>
+        <div>
+            你最喜欢的运动：{{picked}}
+            <input type="radio" v-model="picked" value="aaa">篮球 <!-- 对于单选框，双向绑定字符串，picked中输入value值就行了 -->
+            <input type="radio" v-model="picked" value="bbb">足球
+            <input type="radio" v-model="picked" value="ccc">乒乓球
+            <button>提交</button>
+        </div>
+
+        <h2>下拉列表-订单筛选-选择器</h2>
+        {{selected}} <!-- 设有value值，按value值判定显示，没设value值，按双标签的内容判定显示 -->
+        <select v-model="selected">
+            <option>全部订单</option>
+            <option>未付款</option>
+            <option value="2">已取消</option>
+            <option value="3">已完成</option>
+        </select>
+
+        <h2>下拉选择筛选案例</h2>
+        <select v-model="choice">
+            <option :value="0">全部订单</option>
+            <!-- 注意：如果不加冒号改成动态value，这里value值就是字符串，和后端给的列表里的数字不匹配，改成动态，value值就是数字了，如果要让数字变成字符串，加单引号 -->
+            <option :value="1">未付款</option>
+            <option :value="2">已取消</option>
+            <option :value="3">已完成</option>
+        </select>
+        <ul>
+            <template v-for="({title,state},index) of datalist">
+                <li v-if="state===choice">
+                    {{title}}
+                </li>
+            </template>
+        </ul>
+    </div>
+    <script>
+        var obj4 = {
+            data() {
+                return {
+                    mytext: '',
+                    username: '',
+                    isChecked: false,
+                    favList: [],
+                    picked: 'aaa',
+                    selected: '',          //设置初始值
+                    choice: 0,
+                    datalist: [
+                        { title: "手机-已完成", state: 3 },
+                        { title: "衣服-未付款", state: 1 },
+                        { title: "数码-已取消", state: 2 },
+                        { title: "食品-全部订单", state: 0 },
+                    ]
+                }
+            },
+            methods: {
+                handleClick() {
+                    if (this.isChecked) {          //如果勾选了记住用户名，localStorage记录username值
+                        localStorage.setItem('username', this.username)
+                    }
+                }
+            }
+        }
+        var app4 = Vue.createApp(obj4).mount("#box4")
+    </script>
+</body>
+
+</html>

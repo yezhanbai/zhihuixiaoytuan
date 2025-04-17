@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 350px;
+            margin: 20px auto;
+            border: 5px solid red;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pic {
+            width: 100%;
+            transition: all 1s;
+        }
+
+        h2 {
+            color: white;
+            position: absolute;
+            left: 50px;
+            top: 60px;
+            transform: translateY(-200px);
+            transition: all 1s;
+        }
+
+        p {
+            position: absolute;
+            bottom: 0px;
+            left: 80px;
+            opacity: 0;
+            transition: all 1s;
+        }
+
+        .music {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            /* animation: run 2s linear infinite; */
+
+        }
+
+        .box:hover .pic {
+            transform: translateY(-20px);
+            opacity: 0.5;
+        }
+
+        .box:hover h2 {
+            transform: translateY(0px);
+        }
+
+        .box:hover p {
+            opacity: 1;
+            transform: translateY(-120px);
+
+
+        }
+
+        .box:hover .music{
+            transform: rotate(360edg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <img src="../资料/明星2.png" class="pic">
+        <h2>女明星</h2>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure temporibus delectus distinctio. Earum,nemo sunt consectetur unde porro officiis rerum eius ducimus, ab facere quidem alias deserunt illo eaquenulla?</p>
+        <img src="../资料/明星3.png" class="music">
+        <audio src="../资料/jiejie.wav" controls></audio>
+    </div>
+</body>
+
+</html>

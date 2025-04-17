@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+    <script src="/资料/axios.js"></script>
+</head>
+
+<body>
+    <!-- 表单修饰符 -->
+    <div id="box">
+        {{mytest}}
+        <!-- 加.lazy，变成懒惰的v-model，只会在失去焦点并且内容发生改变的时候才会触发，即在 "change" 事件后同步更新而不是 "input" -->
+        <input type="text" v-model.lazy="mytest">
+
+        <!-- 在原生js中，数字会默认为字符串格式传给后端，加.number就可以保持数字类型，type如果是number，.number不加也会自用启用 -->
+        <input type="text" v-model.number="mynumber">
+
+        <!-- 加.trim，去掉首尾空格 -->
+        <input type="text" v-model.trim="myusername">
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    mytest: '', mynumber: 1, myusername: ''
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount('#box')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 计算属性 -->
+    <!-- 需求：myname首字母大写后返回 -->
+    <div id="box1">
+        欢迎{{myname.substring(0,1).toUpperCase()+myname.substring(1)}}回来
+        欢迎{{mycomputedNname}}回来 <!-- 计算属性方式，不用加小括号 -->
+        <div>{{computedDate}}</div>
+    </div>
+    <script>
+        var obj1 = {
+            data() {
+                return {
+                    myname: 'kerwin',
+                    'year': 2024,
+                    'month': 12,
+                    'day': 31
+                }
+            },
+            /* 计算属性：经过计算后的显示，适用于数据需要改变显示的场景，myname更新时下面会重新加载       作用：避免模版写的过于臃肿
+            和方法表达式的区别：1.一个加小括号，一个不加     2.计算属性方式有缓存，减少重复加载 */
+            /* 
+            是否可以直接用方法替代计算属性？
+            理论上，你可以用方法来替代计算属性，但这并不总是最佳实践。如果你不需要缓存行为，并且逻辑非常简单，那么使用方法可能不会带来明显的负面影响。然而，在大多数情况下，计算属性提供了更好的性能（因为有缓存机制）和更清晰的代码结构。
+            总结建议：
+            如果你有一个派生的状态，它依赖于其他状态，并且你希望这个派生状态能够在依赖发生变化时自动更新，你应该使用计算属性。
+            如果你需要执行一个操作，特别是涉及到用户交互或需要传递参数，那么应该使用方法。
+            如果你发现某个计算属性被频繁调用并且依赖的数据很少变化，考虑保留为计算属性以利用其缓存优势。
+            总之，选择计算属性还是方法取决于具体的业务逻辑和性能要求。对于大多数派生状态的场景，计算属性是更为推荐的选择。
+            */
+            computed: {
+                mycomputedNname() {
+                    return this.myname.substring(0, 1).toUpperCase() + this.myname.substring(1)
+                },
+                //大部分情况，计算属性只读，特定情况下也可修改，开发时基本都用只读功能
+                computedDate: {
+                    get() {
+                        return this.year + '-' + this.month + '-' + this.day
+                    },
+                    set(value) {
+                        [this.year, this.month, this.day] = value.split('-')       //解构赋值
+                    }
+                }
+            }
+        }
+        var app1 = Vue.createApp(obj1).mount("#box1")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- axios库 -->
+    <!-- fetch是官方标准，但是不如第三方库axios好用，它也是基于promise封装的http的库 -->
+    <div id="box2">
+        <button @click="handleClick1" >click_get</button>
+        <ul>
+            <li v-for="item in datalist1" style="list-style-type: none;">{{item}}</li>     <!-- list-style-type: none：去掉样式的点 -->
+        </ul>
+
+        <button @click="handleClick2">click_post</button>
+        <ul>
+            <li v-for="item in datalist2">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        var obj2 = {
+            data() {
+                return {
+                    datalist1: [],
+                    datalist2: []
+                }
+            },
+            methods: {
+                handleClick1() {
+                    //get
+                    axios('http://localhost:3000/list').then(res => {        //只需要1个then，响应信息和响应数据一起回来了
+                        console.log(res)
+                        this.datalist1 = res.data
+                    })
+                },
+                handleClick2() {
+                    //post
+                    axios.post('http://localhost:3000/list', {
+                        name: 'xiaoxiaofei',
+                        age: 1000
+                    }).then(res => {
+                        console.log(res)
+                    })
+                }
+            }
+        }
+        var app2 = Vue.createApp(obj2).mount("#box2")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 过滤器（了解即可） -->
+    <div id="box3">
+        {{mydatefilter(mydate)}} <!-- 函数调用方法 -->
+    </div>
+    <script>
+        var obj3 = {
+            data() {
+                return {
+                    myname: 'kerwin',
+                    mydate: 1730881670249
+                }
+            },
+            methods: {
+                mydatefilter(timestamp) {          //timestamp：要过滤的数据
+                    var date = new Date(timestamp)
+                    return date.getFullYear() + '-' + (date.getMonth() + 1)
+                }
+            }
+        }
+        var app3 = Vue.createApp(obj3).mount("#box3")
+    </script>
+    <!-- 面试：vue3函数过滤器怎么用？    答：vue3不支持函数过滤器了，但是可以用函数表达式或者计算属性代替，现实开发基本不会用过滤器了 -->
+</body>
+
+</html>

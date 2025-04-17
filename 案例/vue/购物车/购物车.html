@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+    <style>
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 思路：永远先构建布局样式，然后再一点点实现布局样式的相应功能（div=>css=>js/vue） -->
+    <div id="box">
+        <ul>
+            <li>
+                <div>
+                    <input type="checkbox" v-model="isAllchecked" @change="handleAllChange"> <!-- change：选择 -->
+                    <span>全选/全不选</span>
+                </div>
+            </li>
+
+            <template v-if="datalist.length">
+                <li v-for="(item,index) in datalist" :key="item.id">
+                    <div>
+                        <input type="checkbox" v-model="checkList" :value="item" @change="hangItemChange">
+                        <!-- 设置完v-model="checkList"后，系统并不知道要把什么内容存在数组里，所以要设一个:value="item"，item是一个对象，支持对象 -->
+                    </div>
+
+                    <div>
+                        <img :src="item.poster"> <!-- src也可以动态绑定，因为是对象，所以也可以用item.poster的方式获取路径 -->
+                    </div>
+
+                    <div>{{item.title}}</div>
+
+                    <div style="color: red;">价格：{{item.price}}</div>
+
+                    <!-- 
+                    为什么加减会影响到checkList数组的值，它不是checkList中item（每一项）上的属性吗？ 
+                    答：item从datalist数组中复制的是一把使用的钥匙，而value通过item给到checkList数组的也是一把新配的一模一样的钥匙，所以datalist和checkList其实是指向同一个对象，他们就形成了关联
+                    -->
+                    <div>
+                        <button @click="item.number--" :disabled="item.number===1">-</button>
+                        <!-- 当item.number为1时，就为ture，就禁用了，注意动态 -->
+                        {{item.number}}
+                        <button @click="item.number++" :disabled="item.number===item.limit">+</button>
+                    </div>
+
+                    <div>
+                        <button @click="handleDel(index,item.id)">删除</button>
+                    </div>
+                </li>
+            </template>
+
+            <li v-else>购物车空空如也</li>
+
+            <li>
+                <div>总金额：{{sum()}}</div> <!-- 这里因为关联了checkList，checkList又是双向绑定，所以checkList只要一变化，这里的总金额就会重新计算 -->
+            </li>
+
+            {{checkList}}
+
+        </ul>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    isAllchecked: false,
+                    checkList: [],       //勾选的商品列表
+                    datalist: [{
+                        id: 1,
+                        title: "商品1",
+                        price: 10,
+                        number: 1,
+                        poster: "https://p0.meituan.net/movie/dc2fed6001e809e4553f90cc6fad9a59245170.jpg@1l_1e_1c_128w_180h",
+                        limit: 5
+                    },
+                    {
+                        id: 2,
+                        title: "商品2",
+                        price: 20,
+                        number: 2,
+                        poster: "https://p0.meituan.net/moviemachine/3084e88f63eef2c6a0df576153a3fad0327782.jpg@1l_1e_1c_128w_180h",
+                        limit: 6
+                    },
+                    {
+                        id: 3,
+                        title: "商品3",
+                        price: 30,
+                        number: 3,
+                        poster: "https://p0.meituan.net/movie/897b8364755949226995144bfc2261ee4493381.jpg@1l_1e_1c_128w_180h",
+                        limit: 7
+                    }
+                    ]
+                }
+            },
+            methods: {
+                sum() {
+                    return this.checkList.reduce((total, item) => total + item.number * item.price, 0)       //reduce方法，最后一个参数为total的初识值0，后面每次total+item计算的结果都赋值给total，最后total为最终值
+                },
+                //处理删除
+                handleDel(index, id) {
+                    this.datalist.splice(index, 1)
+                    this.checkList = this.checkList.filter(item => item.id !== id)     //同步更新checklist，过滤方法，过滤出要不等于这个id的所有值，返回一个新数组
+                    this.hangItemChange()                               //有勾选时，删除没勾选的：这时候需要再次执行全选按钮的判断
+                },
+                handleAllChange() {
+                    this.checkList = this.isAllchecked ? this.datalist : []     //此处为三目，右边在做判断，如果为true，则把datalist赋值给checkList，此时列表被全选，如果为false，则把[]赋值给checkList，列表全取消勾选
+                },
+                hangItemChange() {
+                    console.log(this.checkList.length, this.datalist.length)
+                    if (this.datalist.length === 0) {         //datalist是列表数据
+                        this.isAllchecked = false
+                        return                //return，阻止后续代码执行
+                    }
+                    this.isAllchecked = this.checkList.length === this.datalist.length      //右边做判断，如果this.checkList.length === this.datalist.length，就是ture，即this.isAllchecked就是ture，关注这种写法        
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount("#box")
+    </script>
+</body>
+
+</html>

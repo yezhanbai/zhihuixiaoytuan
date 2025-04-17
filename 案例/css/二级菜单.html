@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 300px;
+            /* 必须有宽度，才可以放到屏幕中间 */
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* >是子代选择器的意思，意味着亲儿子；  空格是后代选择器，包含了所有 */
+        .box>li {
+            float: left;
+            text-align: center;
+            color: white;
+            background: blue;
+            border: 1px solid blue;
+            width: 148px;
+            /* 因为要计算上边框有宽度，所以li的宽度只能为148px，否则无法浮动 */
+            line-height: 40px;
+        }
+
+        .box>li>ul {
+            display: none;
+            background: white;
+            color: black;
+        }
+        
+        .box>li:hover {
+            background: lightblue;
+        }
+
+        .box>li:hover ul {
+            display: block;
+        }
+
+        .box>li li:hover {
+            color: blue
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="box">
+        <li>视频教程
+            <ul>
+                <li>全部视频教程</li>
+                <li>HTML5视频教程</li>
+                <li>JAVA视频教程</li>
+                <li>PYTHON视频教程</li>
+            </ul>
+        </li>
+        <li>认证考试
+            <ul>
+                <li>PMP</li>
+                <li>红帽</li>
+            </ul>
+        </li>
+    </ul>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 动画过渡属性 */
+        /* all-所有属性，2s-动画时间，linear-匀速，1s-延迟     ease：逐渐慢下来，ease-in：加速，ease-out：减速，ease-in-out：先加速后减速，贝塞尔曲线 */
+        /* 单一属性：
+        transition-property：属性，transition-duration：时间，transition-timing-function：速度，transition-delay：延迟 */
+        .box1 {
+            width: 200px;
+            height: 200px;
+            background: red;
+            transition: all 2s linear 1s;
+        }
+
+        .box1:hover {
+            width: 300px;
+            height: 400px;
+            background: yellow;
+        }
+
+        .box2 ul {
+            list-style: none;
+        }
+
+        .box2 li {
+            width: 200px;
+            height: 50px;
+            border: 1px solid gray;
+        }
+
+        .box2 ul:hover li:nth-child(1) {
+            width: 600px;
+            transition: all 2s ease;
+        }
+
+        .box2 ul:hover li:nth-child(2) {
+            width: 600px;
+            transition: all 2s ease-in;
+        }
+
+        .box2 ul:hover li:nth-child(3) {
+            width: 600px;
+            transition: all 2s cubic-bezier(0,1.11,1,-0.17);
+        }
+
+        .box3 {
+            width: 200px;
+            height: 200px;
+            background: yellow;
+            transition-property: height background;
+            transition-duration: 2s;
+            transition-timing-function: linear;
+            transition-delay: 2s;
+        }
+
+        .box3:hover {
+            height: 600px;
+            background: red;
+        }
+
+        /* 平移 */
+        /* translate:(X轴，y轴)，translateX()：X轴平移，translateY()：Y轴平移 */
+        .box4 {
+            width: 200px;
+            height: 200px;
+            background: red;
+            transition: all 2s;
+        }
+
+        .box4:hover {
+            transform: translate(100px, 100px);
+        }
+
+        /* 缩放 */
+        /* transform-origin：改变中心点的位置，transform: scale()-缩放，值为1：保持原样    值为0-1：缩小    值为1以上：放大    设置为负值，是倒着的缩放    支持X轴，Y轴，单独放大   scaleX    scaleY */
+        .box5 {
+            width: 300px;
+            border: 5px solid red;
+            margin: 100px auto;
+        }
+
+        .box5 img {
+            width: 100%;
+            transition: all 2s;
+            /* 从左上角开始放大 */
+            transform-origin: left top;
+        }
+
+        .box5:hover img {
+            transform: scale(1.5);
+        }
+
+        /* 旋转 */
+        /* transform: rotate(270deg)    顺时针旋转270°   负值就是逆时针旋转    transform-origin：变换的原点位于元素的中心，原来是 (50% 50%)，可设置比如：bottom center */
+        .box6 {
+            width: 200px;
+            height: 200px;
+            background: red;
+            margin: auto;
+        }
+
+        .box6:hover {
+            transition: all 2s;
+            transform: rotate(270deg);
+            transform-origin: bottom center;
+        }
+
+        /* 关键动画 */
+        /* transition需要触发事件（hover或click）才可以改变CSS属性，而animation不需要触发任何事件也可以随着时间变化改变元素CSS属性值      @keyframes:关键帧，两种写法   动画-动画名称， 2s-持续时间，linear-过渡类型，1s-延迟时间，infinite-循环次数（无限次） */
+        /* 单一属性：
+        animation-name_动画名；animation-duration_持续时间；animation-timing-function_过渡类型；animation-delay_延迟时间；animation-iteration-count_循环次数；animation-play-state_运行状态：running-运行中，paused-暂停；animation-direction_运行方式：reverse-反方向运动，alternate-交替运行，alternate-reverse */
+        .box7 {
+            animation: donghua2 2s linear 1s infinite;
+        }
+
+        @keyframes donghua1 {
+            from {
+                width: 200px;
+                height: 200px;
+                background: red;
+            }
+
+            to {
+                width: 400px;
+                height: 600px;
+                background: green;
+            }
+        }
+
+        @keyframes donghua2 {
+            0% {
+                width: 200px;
+                height: 200px;
+                background: red;
+            }
+
+            25% {
+                width: 200px;
+                height: 400px;
+                background: yellow;
+            }
+
+            50% {
+                width: 400px;
+                height: 400px;
+                background: blue;
+            }
+
+            75% {
+                width: 400px;
+                height: 500px;
+                background: orange;
+            }
+
+            100% {
+                width: 500px;
+                height: 600px;
+                background: green;
+            }
+        }
+
+        /* 逐帧动画 */
+        /* steps(直接进行关键帧跳跃)   end：看不到最后一帧，等同于step-end写法    start：看不到第一帧，像从步骤二开始，等同于step-start写法   1表示相邻两步骤一瞬间完成，不会过渡 */
+        .box8{
+            width: 200px;
+            height: 200px;
+            background: red;
+            animation: run 5s steps(1,start);
+        }
+        @keyframes run {
+            0%{
+                background: red;
+            }
+
+            50%{
+                background: green;
+            }
+
+            100%{
+                background: yellow;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- 100%和100vw -->
+    <!-- 没有滚动条的时候 100vw=100%    有滚动条：100vw-包含滚动条，窗口大小；100%-刨除滚动条，剩余的空间占满 -->
+
+    <!-- 动画过渡属性 -->
+    <div class="box1"></div>
+    <div class="box2">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="box3"></div>
+
+    <!-- 平移 -->
+    <div class="box4"></div>
+
+    <!-- 缩放 -->
+    <div class="box5">
+        <img src="/资料/小丸子.png">
+    </div>
+
+    <!-- 旋转 -->
+    <div class="box6"></div>
+
+    <!-- 关键帧动画 -->
+    <!-- <div class="box7"></div> -->
+    <br><hr><br>
+
+    <!-- 逐帧动画 -->
+    <div class="box8"></div>
+
+</body>
+
+</html>

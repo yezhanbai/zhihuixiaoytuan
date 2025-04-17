@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 弹窗提示 */
+        // alert('hello world')     
+
+
+        /* 数据类型
+            1.Number：18(整数)     price：12.5(浮点数)     NaN：not a number
+            2.Boolean      true(布尔类型)
+            3.String      'all'(字符串)
+            4.Undefined   声明了未赋值
+            5.Null        未从后端中获取到值，一定会赋值成对象类型
+        */
+
+
+        /* 数据类型检测 */
+        var a
+        console.log(typeof (a))
+
+
+        /* 转成Number类型 */
+        console.log(Number(true))      //true：1     false：0
+        console.log(parseInt('123.45abc'))       //解析保留整数
+        console.log(parseFloat('123.45abc'))     //解析保留至小数
+        console.log(typeof (Number('100' * 1)))     //*1也可以转换成数字类型
+
+
+        /* 转成String类型 */   
+        //所有类型都能转成字符串
+        console.log(String(123))
+        var b = true
+        console.log(b.toString())      //null和undefined不可以用此方法
+        var c = 'abcde', d = 12345
+        console.log(c + d)           //+号一边是字符串，拼接后就是字符串
+        console.log(typeof (d + ''))     //最实用：加空字符串
+        var sampleStr = "Loen said, \"Nier is learning JavaScript\".";      //在引号前面使用反斜杠（\）可转义引号，变成正常的字符串字符
+        console.log(sampleStr)
+
+
+        /* 转成Boolean类型 */
+        //只有''(空字符串)，0，null，undefined，NaN，布尔值的false这6个是false，其余都是true
+        console.log(Boolean(100))
+        var boy = 10
+        console.log(!!boy)
+
+
+        /* 数字运算符 */
+        //+ - * / %
+        var e = 10, f = 3
+        console.log(e % f)      //%：取余
+
+
+        /* 赋值运算符 */
+        var g = 'shuai'
+        var h = 'shiyunfei zhen shi '
+        h += g       //h=h+g    同理-=，*=，/=
+        console.log(h)
+
+
+        /* 比较运算符 */
+        var k = '100'
+        console.log(k == 100)      //==只管数值，不管数据类型
+        console.log(k === 100)     //===既管数值，又管数据类型
+        console.log(k != 100)      //比较两边的值是否不等，相等就是false，不等就是ture
+        console.log(k !== 100)     //比较两边的值和数据类型是否不等，相等就是false，不等就是ture
+
+
+        /* 逻辑运算符 */
+        //&&的优先级大于||，所以有的地方可以不用加括号
+        var p = 5
+        console.log(p == 5 && p == 6)        //和：&&，只要有一边不是true，就会返回false，如果两边都是false，返回前面的
+        console.log(p === 5 || p === 6)      //或：||，只有有一边是true，就会返回true，如果两边都是false，返回后面的
+        console.log(!p)       //取反：!
+        var q = ''
+        console.log(q && '这个人很懒,什么都没有留下')        //只要有一边不是true，就会返回false，所以返回空
+        console.log(111 && '这个人很懒,什么都没有留下')      //如果两边都是true，返回后面的
+        console.log(q || '这个人很懒,什么都没有留下')        //只有有一边是true，就会返回true，所示返回后面的
+        console.log(111 || '这个人很懒,什么都没有留下')      //如果两边都是true，返回前面的
+
+
+        /* 自增自减运算符 */
+        var r = 10, s = 20
+        console.log(++r)        //前置++，先把值自动+1，再返回
+        console.log(s++)        //后置++，先把值返回，再自动+1
+
+
+        /* 三目运算符 */
+        //语法：条件？条件为true的时候执行：条件为false的时候执行
+        //题：满200减10，满100-5
+        var sum = 180
+        var youhui = sum > 200 ? sum - 10 : (sum > 100 ? sum - 5 : sum)
+        console.log(sum, youhui)
+
+
+        /* if条件语句 */
+        //题：满200减10，满100-5，满50-3
+        var sum1 = 80
+        var youhui1
+        if (sum1 > 200) { youhui1 = sum1 - 10 }
+        else if (sum1 > 100) { youhui1 = sum1 - 5 }
+        else if (sum1 > 50) { youhui1 = sum1 - 3 }
+        else { youhui1 = sum1 }
+        console.log(sum1, youhui1)
+
+
+        /* switch条件语句 */
+        //题：根据订单状态码，输出内容   1.未付款   2.已付款   3.已发货   4.已完成
+        //case后不能写比较语句，只能是文本数据        break必须写，没有break的，会从上往下执行显示，直到遇到break停止
+        var code = 2
+        switch (code) {
+            case 1:
+                document.write('未付款')
+                break;
+            case 2:
+                document.write('已付款')
+                break;
+            case 3:
+                document.write('已发货')
+                break;
+            case 4:
+                document.write('已完成')
+                break;
+            default:
+                document.write('出错了')
+        }
+
+
+        /* while循环语句 */
+        //语法：while（条件）{满足条件就执行}      必须设定边界值，不然会一直循环下去   
+        var t = 0
+        while (t < 10) {
+            console.log('hello', t)
+            t++
+        }
+
+
+        /* 断点操作：google浏览器，点击sources，打上断点，最后刷新页面 */
+
+
+        /* dowhile循环语句 */
+        //语法：do {要执行的代码} while (条件)    先不管条件，先执行一次，然后再开始进行条件判断
+        var u = 0
+        do {
+            console.log('hi', u)
+            u++
+        } while (u < 10)
+
+
+        /* for循环语句 */
+        //语法：for (var i=0; i<10; i++) {要执行的代码}     i<10 这个条件判断后，会直接执行{}里的代码，再执行 i++，i++ 后再进行 i<10 的条件判断
+        //for i from 1 to 100 的意思是：对于从1到100的每一项，我们做循环里的事情
+        //for 循环里面一般是套着if条件语句的循环体
+        for (var i = 1; i <= 10; i++) {
+            if (i < 3) {
+                console.log('广告')
+            } else {
+                console.log('电视')
+            }
+        }
+
+
+        /* 循环控制：break和continue */
+        for (var j = 0; j < 5; j++) {
+            if (j === 3) {
+                break    //遇到break后，立即终止循环
+            }
+            console.log(j)
+        }
+
+        for (var v = 0; v <= 5; v++) {
+            if (v === 3) {
+                continue    //遇到continue后，本次循环停止，开始下次循环
+            }
+            console.log(v)
+        }
+    </script>
+</body>
+
+</html>

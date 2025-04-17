@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+</head>
+
+<body>
+    <!-- style绑定-对象写法 -->
+    <div id="box">
+        <div :style="styleObj">赵钱孙李</div>
+        <!-- 案例：点完按钮后，传进来一张图片，且按照设定的样式展示 -->
+        <div :style="imgObj"></div>
+        <button @click="handleAjax()">图片</button>
+    </div>
+    <script>
+        var obj = {
+            data() {
+                return {
+                    // color:'yellow'    
+                    styleObj: {
+                        backgroundColor: 'red',       //value值必须加引号
+                        fontSize: "20px"
+                    },
+                    imgObj: {
+                        width: "200px",
+                        height: "200px",
+                        backgroundSize: "cover"
+                    }
+                }
+            },
+            methods: {
+                handleAjax() {
+                    this.imgObj.height = "400px",       //会覆盖原值
+                        this.imgObj.backgroundImage = "url(https://pic.maizuo.com/usr/movie/6f6a1eaa1cd0123cfaf03c0a1b2e7938.jpg?x-oss-process=image/quality,Q_70)"
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount('#box')
+        app.styleObj.color = "blue"        //可以手动增删改查属性
+    </script>
+
+
+    <!-- style绑定-数组写法 -->
+    <div id="box1">
+        <div :style="styArr">赵钱孙李</div>
+        <!-- 案例：点完按钮后，传进来一张图片，且按照设定的样式展示 -->
+        <div :style="imgArr"></div>
+        <button @click="handleAjax1()">图片</button>
+    </div>
+    <script>
+        var obj1 = {
+            data() {
+                return {
+                    styArr: [{
+                        backgroundColor: 'yellow'
+                    },
+                    {
+                        fontSize: "20px"
+                    }
+                    ],
+                    imgArr: [{
+                        width: "200px",
+                        height: "200px",
+                        backgroundSize: "cover"
+                    }]
+                }
+            }, methods: {
+                handleAjax1() {
+                    this.imgArr.push({ width: "400px" }),
+                        this.imgArr.push({ backgroundImage: 'url(https://pic.maizuo.com/usr/movie/878f3f2dc9ad07a08d37f2fe5affbc32.jpg?x-oss-process=image/quality,Q_70)' })
+                }
+            }
+        }
+        var app1 = Vue.createApp(obj1).mount('#box1')
+        app1.styArr.push({ color: 'green' })
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- for列表渲染 -->
+    <div id="box2">
+        <ul>
+            <li v-for="({title,state},index) of datalist"> <!-- 解构思想，拿到对象里面对应的属性值 --> <!-- for循环里套if判断 -->
+                {{title}}----{{index}}
+                <div v-if="state===0"> <b>未付款</b> </div>
+                <div v-else-if="state===1"> <b>待发货</b> </div>
+                <div v-else-if="state===2"> <b>已取消</b> </div>
+                <div v-else> <b>已完成</b> </div>
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="(value,key,index) of itemObj"> <!-- 遍历对象 -->
+                {{key}}-----{{value}}-----{{index}} <!-- key值，value值，索引 -->
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="item in 10">{{item}} </li> <!-- 1-10 -->
+        </ul>
+
+        <!-- v-for和v-if不能用在一个标签里， v-for和template，v-if和template，可以组合使用，template是个包装标签，只会创建对应成功的属性，且该标签不显示 -->
+        <!-- <template v-for="({title,state},index) of datalist">
+            <li v-if="state===current">
+                {{title}}----{{index}}
+            </li> -->
+    </div>
+    <script>
+        var obj2 = {
+            data() {
+                return {
+                    datalist: [
+                        { title: "手机", state: 3 },
+                        { title: "衣服", state: 1 },
+                        { title: "数码", state: 2 },
+                        { title: "食品", state: 0 },
+                    ],
+                    itemObj: {
+                        name: "kerwin",
+                        age: 100,
+                        location: "dalian"
+                    },
+                    current: 0
+                }
+            }
+        }
+        var app2 = Vue.createApp(obj2).mount("#box2")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- key值 -->
+    <!-- 
+    背景：
+    vue默认按照“就地更新”的策略来更新通过v-for渲染的元素列表
+    虚拟dom，核心：就地跟新
+    解释：
+    1.第一次创建完内容，到渲染页面，中间会创建虚拟dom
+    2.虚拟dom用js对象来描述真实的节点，js对象的渲染速度比dom操作快多了
+    2.更新内容时，会再次创建虚拟dom
+    3.两个dom进行对比，对比索引，把有变化的地方当做补丁更新到原来的dom上
+
+    特殊情况：在中间插入内容
+    1.会需要改变两个地方，插入新值和改变旧值
+    2.这时候就需要添加一个key值，方便vue通过key值进行新旧dom的对比辨认，调换顺序，提高性能
+    -->
+    <div id="box3">
+        <ul>
+            <li v-for="({title,state,id},index) of datalist " :key="index">
+                <!-- key不能设置为固定值，要设置为后端返回的id值，如果没有id，可以设置为index，或者只要是列表上各数据之间有唯一不重复的，就可以用来设置为key值，这里如果不是解构，key要写成"item.id" -->
+                {{title}}----{{state}}----{{index}}----{{id}}
+                <div v-if="state===0"> <b>未付款</b> </div>
+                <div v-else-if="state===1"> <b>待发货</b> </div>
+                <div v-else-if="state===2"> <b>已取消</b> </div>
+                <div v-else> <b>已完成</b> </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        var obj3 = {
+            data() {
+                return {
+                    datalist: [
+                        { title: "手机", state: 3 },
+                        { title: "衣服", state: 1 },
+                        { title: "数码", state: 2 },
+                        { title: "食品", state: 0 },
+                    ],
+                }
+            }
+        }
+        var app3 = Vue.createApp(obj3).mount("#box3")
+    </script>
+
+</body>
+
+</html>

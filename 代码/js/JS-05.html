@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box4 {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 获取元素方式 -->
+    <div id="box1"></div>
+    <ul>
+        <li class="newsitem">11111</li>
+        <li class="newsitem">22222</li>
+        <li class="newsitem">33333</li>
+        <li class="newsitem">44444</li>
+        <li class="newsitem">55555</li>
+    </ul>
+    <ul>
+        <li class="aditem">66666</li>
+        <li class="aditem">77777</li>
+        <li class="aditem">88888</li>
+    </ul>
+    <div name="div1">div1</div>
+    <div class="class1">class1</div>
+
+    <!-- 操作元素属性 -->
+    <hr>
+    <div id="box2"></div>
+    <input type="text" value="hello" id="username">
+    <input type="checkbox" checked id="rember">
+    <div id="box3"></div>
+
+    <!-- 操作元素样式 -->
+    <hr>
+    <div id="box4" style="width: 100px; color: black; background-color: yellow;">11111111</div>
+
+    <!-- 操作元素类名 -->
+    <hr>
+    <div id="box5" class="item">shiyunfei</div>
+
+    <!-- 获取dom节点 -->
+    <hr>
+    <div>hello world</div>
+    <div id="box6" index="100" class="200">
+        kerwin
+        <p>1111111111</p>
+        <p>2222222222</p>
+        <!-- 我是注释 -->
+    </div>
+    <div>xiaoxiaofei</div>
+
+    <!-- 节点操作 -->
+    <hr>
+    <div id="box7">
+        <div id="child"></div>
+    </div>
+    <ul id="list"></ul>
+
+    <script>
+        /* DOM */
+        //定义：文档对象模型     其实就是操作html中的标签的一些能力   核心就是docuemnt对象      document对象是浏览器内置的一个对象，里面存储着专门用来操作元素的各种方法
+        //DOM：页面中的标签，我们通过js获取到以后，就把这个对象叫做DOM对象
+
+        //获取元素方式
+        console.log(document.documentElement)        //获取html节点
+        console.log(document.head)           //获取haed节点
+        console.log(document.body)           //获取body节点
+
+        var obox = document.getElementById('box1')            //通过id方式获取      
+        console.log(obox)
+        obox.innerHTML = 'shiyunfei'           //.innerHTML：改值，赋值
+
+        var item1 = document.getElementsByClassName('newsitem')          //通过class方式获取
+        console.log(item1)
+        item1[0].innerHTML = 'new-11111'
+
+        for (var i = 1; i < item1.length; i++) {           //因为有length，所以还支持for循环改值
+            item1[i].innerHTML = 'news-' + i
+        }
+
+        var item2 = document.getElementsByTagName('li')       //通过标签名获取      TagName：HTML或XML文档中的标签名称
+        console.log(item2)
+
+        var item3 = document.getElementsByName('div1')         //通过name方式获取
+        console.log(item3)
+
+        var item4 = document.querySelector('#box1')           //用CSS获取元素的方法去获取       只会返回遇到的第一个对象
+        var item5 = document.querySelector('ul li')
+        var item6 = document.querySelector('.class1')
+        console.log(item4, item5, item6)
+
+        var item7 = document.querySelectorAll('ul li')                   //返回所有符合的对象
+        var item8 = document.querySelectorAll('ul li.aditem')
+        console.log(item7, item8)
+
+        //操作元素属性
+        //原生属性
+        box2.innerHTML = '22222'
+        username.type = 'password'
+        rember.checked = false
+
+        //自定义属性
+        box2.setAttribute('kerwin', '33333')       //setAttribute()：新增属性         (属性名，属性值)
+        console.log(box2.getAttribute('kerwin'))       //getAttribute()：获取属性值
+        box2.removeAttribute('xiaofang')          //removeAttribute()：删除属性
+        //新版自定义属性
+        //自定义属性前面加：data-****，用来区分原生和自定义
+        box3.dataset.xiaoming = 'hello'       //新增自定义属性
+        box3.dataset.xiaohong = 'world'
+        delete box3.dataset.xiaoming          //删除自定义属性
+        console.log(box3)
+
+        //操作元素样式
+        box4.style.width = '200px'            //修改
+        box4.style['background-color'] = 'red'
+        var item9 = getComputedStyle(box4).height         //getComputedStyle()：对内部样式，外部样式，行内样式，获取属性值，但不能修改
+        console.log(item9)
+
+        //操作元素类名
+        console.log(box5.className)        //.className：获取元素名
+        box5.className = 'item item2'      //改值
+        box5.className += ' item3'
+        console.log(box5.className)
+
+        box5.classList.add('item4')       //.classList，返回的是一个 DOMTokenList对象，该对象允许您添加、移除、切换或检查某个特定类     相关属性是class
+        console.log(box5.classList)
+        console.log(box5.className)
+        box5.classList.remove('item2')     //.remove()：去除
+        console.log(box5.className)
+        box5.classList.toggle('item')      //.toggle()：切换，有就加上，没有就删除
+        console.log(box5.className)
+
+        //获取dom节点
+        console.log(box6.childNodes)           //所有节点
+        console.log(box6.children)             //所有元素节点
+
+        console.log(box6.firstChild)            //第一个节点
+        console.log(box6.firstElementChild)      //第一个元素节点
+
+        console.log(box6.lastChild)               //最后一个节点
+        console.log(box6.lastElementChild)        //最后一个元素节点
+
+        console.log(box6.previousSibling)         //上一个节点
+        console.log(box6.previousElementSibling)       //上一个元素节点
+
+        console.log(box6.nextSibling)       //下一个节点
+        console.log(box6.nextElementSibling)       //下一个元素节点
+
+        console.log(box6.parentNode)          //父节点
+        console.log(box6.parentElement)      //父元素节点
+
+        console.log(box6.attributes)         //拿到所有属性节点的属性名
+        console.log(box6.attributes[1])      //根据下标拿到对应的属性名及属性值
+
+        console.log('属性', box6.attributes[0].nodeType)       //nodeType：判断自己的节点类型          元素节点：nodeType=1，属性节点：nodeType=2，文本节点：nodeType=3，注释节点：nodeType=8
+
+        //节点操作
+        var odiv = document.createElement('div')      //创建一个元素节点
+        odiv.className = 'aaaaaa'
+        odiv.id = 'aaa'
+        odiv.style.background = 'yellow'
+        console.log(odiv)
+
+        box7.appendChild(odiv)            //插入节点
+        box7.insertBefore(odiv, child)        //（要插入的节点，在谁的前面插入）
+        console.log(box7)
+
+        // box7.removeChild(child)         //删除节点
+        // box7.remove()               //删除自己以及后代
+
+        var odiv2 = document.createElement('div')
+        odiv2.className = 'bbbbb'
+        odiv2.id = 'bbb'
+        odiv2.style.background = 'red'
+        box7.replaceChild(odiv2, child)       //替换节点      （新的节点，老的节点）
+
+        var oclone = box7.cloneNode(true)          //复制，默认不复制后代，括号里加true，就会复制后代
+        console.log(box7, oclone)
+        oclone.id = 'ccc'          //重新赋值，不影响原来的内容
+
+        //动态删除
+        var arr = ['11111', '22222', '33333']
+        for (var i = 0; i < arr.length; i++) {
+            var oli = document.createElement('li')
+            oli.innerHTML = arr[i]
+
+            var obutton = document.createElement('button')
+            obutton.innerHTML = 'delete'
+            obutton.onclick = function () {
+                console.log(this)        //找到点的第几个
+                this.parentNode.remove()      //找到当前节点的父节点，删除     父节点：li
+            }
+            oli.appendChild(obutton)      //每次循环，都加上按钮
+            list.appendChild(oli)         //把li们放入ul    非常关键，让内容显示在页面
+        }
+
+    </script>
+</body>
+
+</html>

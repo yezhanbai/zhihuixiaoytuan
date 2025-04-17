@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        ul li {
+            overflow: hidden;
+            height: 150px;
+        }
+
+        ul li img {
+            float: left;
+            width: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>标题</h1>
+    <ul id="list"></ul>
+
+    <script>
+        var arr1 = [{
+            name: '异形：夺命舰',
+            url: 'https://pic.maizuo.com/usr/movie/1b7140010cc92c83075feb4acf6417eb.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '抓娃娃',
+            url: 'https://pic.maizuo.com/usr/movie/62d365cd9d2f8a4e29253f89d5bd93a0.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '逆鳞',
+            url: 'https://pic.maizuo.com/usr/movie/796e2750b7af0dab78f2ff5a513f5106.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '通往夏天的隧道，再见的出口',
+            url: 'https://pic.maizuo.com/usr/movie/d215f7c14104492ca279ffd15c0644ee.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '转生大作战',
+            url: 'https://pic.maizuo.com/usr/movie/76ec16f03af60a8538691f22a4ae596e.png?x-oss-process=image/quality,Q_70'
+        }
+        ]
+
+        var arr2 = [{
+            name: '重生',
+            url: 'https://pic.maizuo.com/usr/movie/11d5a012389800f8df9756db7df894e8.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '名侦探柯南：百万美元的五棱星',
+            url: 'https://pic.maizuo.com/usr/movie/609a4666101a897e326d04e6ae06f8c6.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '刺猬',
+            url: 'https://pic.maizuo.com/usr/movie/1e506f61b3c63aa7d9f717b40ce07849.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '白蛇：浮生',
+            url: 'https://pic.maizuo.com/usr/movie/ac1ae534b13524d215593d7ea80c9374.jpg?x-oss-process=image/quality,Q_70'
+        },
+        {
+            name: '食神',
+            url: 'https://pic.maizuo.com/usr/movie/11d5a012389800f8df9756db7df894e8.jpg?x-oss-process=image/quality,Q_70'
+        }
+        ]
+        renderHTML(arr1)
+        function renderHTML(arr) {
+            for (var i = 0; i < arr.length; i++) {
+                var oli = document.createElement('li')          //循环创建多个li
+                oli.innerHTML = `<img src='${arr[i].url}'>        
+                <h3>${arr[i].name}</h3>`        //往oli里赋值arr数组里的内容
+                list.appendChild(oli)      //追加节点
+            }
+        }
+        isLoading = false
+        window.onscroll = function () {
+            var listHeight = list.offsetHeight      //ul的内容长度
+            var listTop = list.offsetTop      //ul到顶部的长度
+            var scrollTop = document.documentElement.scrollTop    //页面往上滚动的距离
+            var windowheight = document.documentElement.clientHeight     //可视窗口高度
+
+            if (isLoading) return        //如果是true，达到临界值触发刷新页面，因为滚动是不停的，此时再滚动还会不断刷新下一页数据，加return就不会再执行后续代码了
+            if ((listHeight + listTop) - (windowheight + scrollTop) < 50){    //快到底了，触发
+                console.log('到底了')
+                isLoading = true          //写这个就不会滚动时永远重复刷新最后一份数据了
+            }
+
+            //渲染下一页数据     一般情况下，下一页数据不会那么快就获得的，需要等待后端传送
+            setTimeout(function () {
+                renderHTML(arr2)
+                isLoading = false
+            }, 1000)
+        }
+
+        
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

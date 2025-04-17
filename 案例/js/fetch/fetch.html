@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        async function test() {
+            var aaa = await fetch(`http://localhost:3000/news/?author=tiechui`)
+                .then(res => res.json())
+            console.log(aaa)
+
+            var bbb = await fetch(`http://localhost:3000/comments/?newsId=${aaa[0].id}`)
+                .then(res => res.json())
+            console.log(bbb)
+        }
+        test()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div .content{
+            display: none;  
+        }
+
+        div .content:target{         /* :target_当目标匹配时，执行以下代码 */
+            display: block;  
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <a href="#1">自我介绍</a>
+        <div id="1" class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi voluptatibus facere et odit, alias nam laboriosam ea dolorem illo voluptatem. In accusantium voluptatibus earum aperiam quos velit, dolores repellendus? Cupiditate.</div>
+    </div>
+
+    <div>
+        <a href="#2">教育经历</a>
+        <div id="2" class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto non eius voluptas quis voluptatum nostrum, modi similique repudiandae ut, architecto asperiores obcaecati inventore optio tempore voluptatem, pariatur vero laudantium excepturi!</div>
+    </div>
+
+    <div>
+        <a href="#3">工作总结</a>
+        <div id="3" class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, fuga. Voluptates, incidunt impedit dolorum beatae dicta maiores officiis facere amet temporibus eligendi doloribus ipsam at cum explicabo sapiente nisi quibusdam.</div>
+    </div>
+</body>
+
+</html>
+
+<!-- 这个案例后期看能不能改成再点击收起来 -->

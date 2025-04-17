@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        用户名：<input type="text" id="username">
+    </div>
+    <div>
+        密码：<input type="password" id="password">
+    </div>
+    <div>
+        <button id="login">登录</button>
+    </div>
+    <script>
+        //一进页面，先从Local storage中获取已有的用户名，密码
+        var uservalue = localStorage.getItem('username')
+        var passvalue = localStorage.getItem('password')
+
+        // 给输入框赋值，没值就是null，也不会报错
+        username.value = uservalue    
+        password.value = passvalue
+
+        login.onclick = function(){
+            console.log(username.value,password.value)
+
+            localStorage.setItem('username',username.value)     //获取填写的用户名
+            localStorage.setItem('password',password.value)     //获取填写的密码
+        }
+
+
+    </script>
+</body>
+</html>

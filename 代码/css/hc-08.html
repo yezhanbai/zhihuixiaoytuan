@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* rem布局，写法二 */
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        html{
+            font-size: 4.27vw;
+        }
+
+        div{
+            width: 23.4375rem;
+            height: 6.25rem;
+            background: yellow;
+        }
+        /* 
+        思路：（最优写法）
+        750宽，200高的设计稿，宽高正常除以2
+        100vw=375px，1px=0.2667vw
+        所以16px=4.27vw
+        宽高正常除以2不用变
+        */
+    </style>
+</head>
+<body>
+    <!-- rem布局，写法二 -->
+    <!-- 
+        vh   view-height  的缩写    100vh === 视口高度   即浏览器上显示的高度，动态改变         假如模块宽高是750*1134，100vh就等于1134，1vh=11.34px
+        vw   view-width  的缩写    100vw === 视口宽度   即浏览器上显示的宽度 ，动态改变         假如模块宽高是750*1134，100vw就等于750，1vw=7.5px
+    -->
+    <div class="box1">赵钱孙李</div>
+</body>
+</html>

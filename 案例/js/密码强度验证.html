@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            width: 500px;
+            padding: 20px;
+            border: 3px solid #333;
+            margin: 50px auto;
+        }
+
+        form>div {
+            width: 100%;
+            height: 70px;
+        }
+
+        form>div>input {
+            width: 100%;
+            height: 50px;
+            font-size: 20px;
+            padding-left: 30px;
+            box-sizing: border-box;
+        }
+
+        form>p {
+            width: 100px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        form>p>span {
+            width: 30%;
+            background-color: #ccc;
+            color: #fff;
+            height: 30px;
+            font-size: 20px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        form>p>span:nth-child(1).active {
+            background-color: red;
+        }
+
+        form>p>span:nth-child(2).active {
+            background-color: orange;
+        }
+
+        form>p>span:nth-child(3).active {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div>
+            <input type="text">
+        </div>
+        <p>
+            <span>弱</span>
+            <span>中</span>
+            <span>强</span>
+        </p>
+    </form>
+
+    <script>
+        var oinput = document.querySelector('input')         //定位并获取到input值
+        var reg1 = /\d/       
+        var reg2 = /[a-z]/i
+        var reg3 = /[!@#$%^&*()]/
+        var ospan = document.querySelectorAll('span')      //获取所有span标签
+        oinput.oninput = function () {           //oninput：事件    在每次输入发生改变时都会立即触发，而不仅仅是当元素失去焦点时
+            console.log(this.value)
+
+            var level = 0
+            if (reg1.test(this.value)) level++      //输入的值如果满足正则表达式，则+1
+            if (reg2.test(this.value)) level++
+            if (reg3.test(this.value)) level++
+            console.log(level)
+
+            for(var i=0;i<ospan.length;i++){               //输入一个值就要执行一次for循环
+                ospan[i].classList.remove('active')       //循环开始前先清除身上的active
+                if(i<level){    
+                ospan[i].classList.add('active')       //这里是循环加，比如level=2，i=0满足,加上去，到i=1时，又满足再加上去
+            }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

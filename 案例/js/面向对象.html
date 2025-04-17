@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 百度新闻中有很多列表：财经的，体育的，汽车的，娱乐的等等，把列表当成菜，制作一个生成菜的工厂来      必须是类似的结构才可以，不可以这个是列表，那个是选项卡，要求封装成一个构造函数，这是做不到的 -->
+    <div class="box1">
+        <h1></h1>
+        <ul></ul>
+    </div>
+    <div class="box2">
+        <h1></h1>
+        <ul></ul>
+    </div>
+    
+    <script>
+        //后端给的数据
+        var data1 = {           
+            title:'体育',
+            list:['体育-1','体育-2','体育-3']
+        }
+        var data2 = {      
+            title:'财经',
+            list:['财经-1','财经-2','财经-3']
+        }
+        //创建构造函数(工厂)
+        function CreateList(box,data){
+            this.ele = document.querySelector(box)     //匹配div
+            this.title = data.title
+            this.list = data.list
+
+            //渲染页面，把对象值和class对应的属性值关联
+            // this.render = function(){         //这是最优写法
+
+            //phototype：原型       目的:对于重复代码，实现共享内存
+            CreateList.prototype.render = function () {
+
+                //在节点中找到h1和ul，每一个节点都有自己的querySelector方法
+                var h1 = this.ele.querySelector('h1')
+                var ul = this.ele.querySelector('ul')
+                //赋值
+                h1.innerHTML = this.title 
+                ul.innerHTML = this.list.map(item => `<li>${item}</li>`).join('')
+            }
+        }
+        var obj1 = new CreateList('.box1',data1)       //生成体育对象
+        var obj2 = new CreateList('.box2',data2)       //生成财经对象
+        console.log(obj1,obj2)
+        obj1.render()
+        obj2.render()
+
+        /* 
+        问题：为什么obj1能调用render方法：
+        对象.__proto__ === 构造函数.prototype
+        创建完(obj1)对象后，天生自带__proto__，这个值指向(CreateList)构造函数.prototype，这两个一模一样，这就解释了为什么obj1可以点到render，它是通过obj1.__photo__找到CreateList.phoototyp，然后在它的身上找render，如果有就调用
+        */
+        console.log(obj1.__proto__)
+        console.log(CreateList.prototype)
+        console.log(obj1.__proto__ === CreateList.prototype)      //ture
+
+        //扩展  ：原型链概念   
+        obj1.toString()
+        //obj1.toString()调用后，先找obj1身上有没有，没有沿着.__proto__找到(CreateList)构造函数.prototype，构造函数身上也没有，但本身它自己也是一个对象，所以它也有.__proto__，它就会沿着自己的__proto__找它上一级的Object.prototype，恰巧它身上定义了一个toString，最终可以打印出来
+        // 原型链的顶点：为null
+        console.log(CreateList.prototype.__proto__)
+        console.log(Object.prototype)
+        console.log(CreateList.prototype.__proto__ === Object.prototype)
+
+
+        //面向对象注意点：
+        function CreateObj(name){
+            this.name = name         //2.这里是新创建的
+        }
+
+        CreateObj.prototype.getName = function(){       //3.原型这里是共用的
+            console.log('11111',this.name)
+        }
+
+        var obj3 = new CreateObj('kerwin')     //1.每次new完
+        obj3.getName()
+
+        obj3.getName = function(){
+            console.log(2222222)        //4. 即使obj3修改.getName，也不会影响到obj4，因为上面这个调用：obj3.getName()，相当于已经给obj3附上这个属性了，obj3成为单独的实例了，而且一般轻易不会去改原型，因为原型很多人在共用
+        }   
+        obj3.getName()
+        var obj4 = new CreateObj('tiechui')
+        obj4.getName()
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 正则表达式 */
+        //定义：JS的复杂类型     1.字面量写法：/&&&/        2.内置构造函数：new RegExp
+        var reg1 = /\d/               // 包含一位数字（0-9）
+        var reg2 = /\D/               // 包含一位非数字（0-9）
+        var reg3 = /\s/               // 包含一位空白（空格，缩进，换行，回车等）
+        var reg4 = /\S/               // 包含一位非空白
+        var reg5 = /\w/               // 包含一位字母or数字or下划线
+        var res6 = /\W/               // 不包含一位字母or数字or下划线
+        var res7 = /./                // 包含除了换行的任意内容
+        var reg8 = /\d\.\d/           // \：转义字符
+        var reg9 = /^\d/              // 开头必须是\d
+        var reg10 = /\d$/             // 结尾必须是\d
+        var reg11 = /^abc$/           // 以abc开头，以abc结尾
+        var reg12 = /\d*/             // \d  0~多个
+        var reg13 = /\d+/             // \d  1~多个
+        var reg14 = /\d?/             // \d  0~1个        超过数量也是ture
+        var reg15 = /\d{3}/           // {n}  指定次数      超过数量也是ture，需要exec来区别，exec截出来就是3个
+        var reg16 = /\d{3,}/          // {n,}  大于等于指定次数
+        var reg17 = /\d{3,4}/         // {n,m}  大于等于n次，小于等于m次
+        var reg18 = /c{2}/            // 两个c必须相连
+        var reg19 = /abc{2}/          // a，b各出现一次，c出现2次,c必须相连
+        var reg20 = /^(abc){2}$/      // ()：整体
+        var reg21 = /a|b/             // |：或，包含任意一个 
+        var reg22 = /abc|def/         // abc和def分别是一个整体，有无括号没区别
+        var reg23 = /[abcdef]{3,5}/   // []：代表任意一个在[]里面就是true       值只能从[]里面取，数量在3-5个之间
+        var reg24 = /[^abc]/          // 取反     有一个不是abc里面的就是true
+
+        var reg25 = "color";
+        var reg26 = "colour";
+        var reg27 = /colou?r/;       // ?：检查有无，u存不存在都可以
+        console.log(reg27.test(reg25));     
+        console.log(reg27.test(reg26)); 
+
+        var reg28 = /abc/
+        console.log(reg28.test('fgtr'))      //test()：测试是否包含abc三个字母，且是紧密相连的
+
+        var reg29 = /\d/
+        var reg30 = /\d+/
+        console.log(reg29.exec('abc124vb'))        //exec()：捕获    
+        console.log(reg30.exec('abc124vb'))       // 用/\d/只能捕获1，用/\d+/可以捕获124
+
+        var datestr = 'time is 2029-01-02 12:13:14'      //后端给的数据
+        var reg31 = /\d{4}-\d{2}-\d{2}/
+        var newdatestr = reg31.exec(datestr)      
+        console.log(newdatestr)        //捕获出来是个数组格式，在下标0的位置
+        console.log(newdatestr[0].split('-').join('/'))       //按照 - 分割并转换成所需样式
+
+        var datestr1 = 'time is from 2030-01-02 12:13:14 to 2031-02-03 15:16:17'
+        var reg32 = /\d{4}-\d{2}-\d{2}/g           // g：全局，用来处理懒惰
+        var newdatestr1 = reg32.exec(datestr1)
+        console.log(newdatestr1)        //捕获第一个
+        var newdatestr2 = reg32.exec(datestr1)
+        console.log(newdatestr2)        //捕获第二个
+        console.log(newdatestr1[0].split('-').join('/'))    
+        console.log(newdatestr2[0].split('-').join('/'))
+        console.log(datestr1.match(/\d{4}-\d{2}-\d{2}/g))       //match()：也是捕获，直接捕获2个，括号里面直接写正则，而exec括号里写的是被捕获的数据
+
+        var reg33 = /[a-z]/i         // i：忽略大小写，相当于a-z，A-Z都在范围内
+
+        var reg34 = /\d{1,7}/      
+        console.log(reg34.exec('aa123456bb'))        // 1个就已经满足，但是6个都会被捕获，这就是贪婪
+        var reg1 = /\d{1,7}?/                        // 加?，改成非贪婪
+        console.log(reg1.exec('aa123456bb'))
+
+        var str = 'agtdagydsa'
+        var newstr = str.replace('a','*')         //replace()：替换      只有遇到的第一个会生效
+        var newstr1 = str.replace(/a/g,'*')       //用正则，加g，全局替换  
+        console.log(newstr,newstr1)
+
+        console.log(str.search(/d/))          //search()：查找索引位置
+        console.log(str.search(/z/))          // -1：没找到
+    </script>
+</body>
+</html>

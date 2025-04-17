@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="myget">get</button>
+    <button id="mypost">post</button>
+    <button id="fzget">fzget</button>
+    <button id="fzpost">fzpost</button>
+    <script src="/资料/封装.js"></script>
+    <button id="fget">fget</button>
+    <button id="fpost">fpost</button>
+    <script>
+        /* 页面交互流程：
+        1.打开客户端时，服务器把html,css,js等代码传到客户端页面加载
+        2.点击页面上任意可交互的地方，客户端发送请求到服务器，服务器再去数据库拿想要的数据
+        3.服务器拿到数据后，再传给页面
+
+        痛点：每次客户端向给服务器拿数据，页面都会自己刷新一下
+        解决：ajax交互 */
+
+
+        /* ajax */
+        //定义：前后台交互的能力，是我们客户端给服务端发送消息，以及接受响应的工具，是一个默认异步执行机制的功能
+        var xhr = new XMLHttpRequest()               //步骤1：创建XHR
+        xhr.open('get', 'http://127.0.0.1:5500/%E8%B5%84%E6%96%99/json-01.json', true)       //步骤2：配置open方法（请求方式，请求地址，是否异步）     第三个参数，不传默认ture异步，传false就是同步，同步的话，需要把下面的回调函数提到send之前
+        xhr.send()                                   //步骤3：把请求发出去
+        xhr.onload = function () {                     //步骤4：接受返回数据，先注册一个事件
+            if (xhr.status === 200) {           //xhr.status：http状态码   
+                console.log(JSON.parse(xhr.responseText))          //xhr.responseText：数据
+            } else if (xhr.status != 200) {
+                console.error('没有找到这个页面')
+            }
+        }
+
+        //请求方式
+        //get：偏向于获取数据     post：偏向于提交数据     put：偏向于更新数据（全部替换）     patch  偏向部分修改        delete  偏向于删除数据
+        myget.onclick = function () {
+            var xhr = new XMLHttpRequest()
+            xhr.open('get', 'http://localhost:3000/users?username=kerwin')       //地址上不传参获得所有，传参获得指定内容
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log(JSON.parse(xhr.responseText))
+                }
+            }
+            xhr.send()
+        }
+
+        mypost.onclick = function () {
+            var xhr = new XMLHttpRequest()
+            xhr.open('post', 'http://localhost:3000/users')
+            xhr.onload = function () {
+                if (/^2\d{2}$/.test(xhr.status)) {
+                    console.log(JSON.parse(xhr.responseText))
+                }
+            }
+            xhr.setRequestHeader("Content-Type", "application/json")        //告诉服务器，浏览器发送的参数是什么格式的字符串
+            xhr.send(JSON.stringify({       //post支持的写法：1、name=kerwin&age=100   表单字符串方式       2、{"name":"kerwin"}   json字符串方式
+                'username': 'xiaofang',
+                'password': '123456'
+            }))
+        }
+
+        //ajax封装
+        fzget.onclick = function () {
+            ajax({
+                url: 'http://localhost:3000/users',      //封装函数的人，是希望给广大群众使用的，他肯定猜不到使用者的url是什么，所以一定要传，下面的success，error同理，封装者不可能知道使用者的目的是什么
+                data: 'username=xiaoxiaofei',
+                success: function (aaa) {             //写方法， 用于封装函数的回调，也能获得封装函数的值
+                    console.log('success', aaa)
+                },
+                error: function (bbb) {
+                    console.log('error', bbb)
+                }
+            })
+        }
+
+        fzpost.onclick = function () {
+            ajax({
+                url: 'http://localhost:3000/users',
+                method: 'post',
+                data: {
+                    "username": "xiaozhao",
+                    "password": "123456"
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (aaa) {
+                    console.log('success', aaa)
+                },
+                error: function (bbb) {
+                    console.log('error', bbb)
+                }
+            })
+        }
+
+
+        /* promise */
+        //作用：处理回调地狱       回调地狱：回调函数嵌套过多导致，也叫嵌套金字塔
+        //每个 Promise 对象都有三种状态：pending：初始状态，既不是成功也不是失败。fulfilled：表示操作成功完成。rejected：表示操作失败
+        // 创建一个简单的 Promise        myPromise是promise对象，是promise对象才可以用.then()和.catch()
+        const myPromise = new Promise((resolve, reject) => {
+            // 模拟异步操作
+            setTimeout(() => {
+                const success = true;
+                if (success) {
+                    resolve('操作成功');           //成功兑现承诺
+                } else {
+                    reject('操作失败');            //失败拒绝承诺
+                }
+            }, 1000);
+        });
+        // 使用 .then() 和 .catch() 处理 Promise 的结果
+        myPromise
+            .then(result => console.log(result))         // 如果成功
+            .catch(error => console.error(error));       // 如果失败
+
+
+        /* async和await */
+        //作用；处理回调地狱      
+        //async/await 是基于 Promise 的语法糖，使得异步代码看起来像同步代码一样书写。使用 async 关键字定义的函数总是返回一个 Promise，并且可以在函数内部使用 await 关键字等待另一个 Promise 完成
+        //在 Promise 中，你通常使用 .catch() 来捕获错误；而在 async/await 中，你可以使用传统的 try...catch 语句来进行错误处理，这通常被认为更加直观
+        async function fetchData() {
+            try {
+                // 模拟异步操作
+                const result = await myPromise;        ////加了await后，仅对于这个函数，会不分同步异步，按顺序执行下去，对函数外面没有影响，类似于在函数里写同步代码的感觉
+                console.log(result); // 如果成功
+            } catch (error) {
+                console.error(error); // 如果失败
+            }
+        }
+        fetchData();
+
+
+        /* fetch */
+        //作用：取代 XMLHttpRequest         所有 fetch 请求都返回一个 Promise，这使得它们可以很方便地与 async/await 结合使用
+        fget.onclick = function () {
+            var username = 'kerwin'
+            fetch(`http://localhost:3000/users?username=${username}`).then(res => {         //默认get请求
+                console.log(res)
+                if (res.ok) {
+                    return res.json()         //res.json()表示把数据按json格式读出来，它也是一个Promise对象，在第二个.then才能拿到结果
+                } else {
+                    return Promise.reject({         //主动拒绝，不然如果失败后，if执行那边不ruturn，下面的.then和.catch都拿不到数据      Promise.resolve：主动兑现
+                        status: res.status,
+                        statusText: res.statusText
+                    })
+                }
+            }).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log('error', err)
+            })
+        }
+
+        fpost.onclick = function () {
+            fetch('http://localhost:3000/users', {
+                method: 'post',
+                headers: {
+                    // "Content-Type": "application/json"
+                    // "Content-Type": "application/x-www-form-urlencoded",        //headers不传似乎也能成功，前提是下面body必须是json格式
+                },
+                body: JSON.stringify({
+                    username: "xiaoxiaofei",
+                    password: "123456"
+                })
+            }).then(res => {
+                return res.json()
+            }).then(res => {
+                console.log(res)
+            })
+        }
+
+
+        /* Promise.all */
+        //场景：当需要同时发起多个 HTTP 请求并且希望在所有请求完成后处理数据时，Promise.all 是非常理想的
+        //成功示例：
+        // 创建三个模拟异步操作的 Promise
+        const promise1 = Promise.resolve(3);
+        const promise2 = 42; // 非 Promise 值，被视为已完成的 Promise
+        const promise3 = new Promise((resolve, reject) => {
+            setTimeout(resolve, 100, 'foo');          //setTimeout(resolve, 100, 'foo')：这里使用了 setTimeout 来延迟执行 resolve 函数。setTimeout 的第一个参数是要执行的函数或代码片段，在这里是 resolve。第二个参数是指定的延迟时间，单位为毫秒，在这个例子中是 100 毫秒。第三个参数及以后的参数将作为参数传递给 resolve 函数，所以在这个例子中，resolve 函数会被调用并传入 'foo' 作为参数
+        });
+        // 使用 Promise.all 并行执行这些 Promise
+        Promise.all([promise1, promise2, promise3])
+        .then(values => {
+            console.log(values); // 输出: [3, 42, "foo"]
+        });
+
+        //失败示例：
+        const promise4 = Promise.resolve('Success');
+        const promise5 = new Promise((_, reject) => setTimeout(reject, 100, 'Error'));
+        const promise6 = new Promise(resolve => setTimeout(resolve, 500, 'Slow Success'));
+        Promise.all([promise4, promise5, promise6])        //在这个例子中，即使 promise6 最终会成功解决，但由于 promise5 较早地被拒绝了，因此整个 Promise.all 立即被拒绝，并且只输出 promise2 的错误信息。
+            .then(values => console.log(values))
+            .catch(error => console.error(error)); // 输出: Error
+
+    </script>
+</body>
+
+</html>

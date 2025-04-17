@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/资料/vue.js"></script>
+    <style>
+        .red {
+            background-color: red;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+
+        .active {
+            background-color: red;
+        }
+
+        .aaa {
+            background-color: red;
+        }
+
+        .bbb {
+            background-color: green;
+        }
+
+        .ccc {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- vue模版 -->
+    <div id="box"> <!-- Vue只会挂一个根节点 -->
+        {{myname+"-aaaa"}} <!-- 支持字符串拼接 -->
+        {{isLogin?"已登录":"未登录"}} <!-- 支持三目 -->
+        {{10+20}} <!-- 支持加减乘除运算 -->
+        {{myname.slice(0,1)}} <!-- 支持函数表达式调用 -->
+        {{test()}} <!-- 支持直接在methods中写函数表达式，双大括号里调用 -->
+        <!-- {{var a = 1}}       不支持语句 -->
+        <!-- {{if,for,while,do while}}     这些语句都不支持，指令自身有这些功能 -->
+    </div>
+    <script>
+        //我们要创建Vue应用，挂在box节点
+        var obj = {
+            data() {
+                return {
+                    myname: 'kerwin',        //初始值
+                    isLogin: true           //传true就显示已登录
+                }
+            },
+            methods: {
+                test() {
+                    return 'test111111'
+                }
+            }
+        }
+        var app = Vue.createApp(obj).mount('#box')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 指令 -->
+    <div id="box1">
+        <!-- 加冒号变成动态绑定，相当于字符串值去掉了引号，回归到了自己原本的属性，比如：值是'3'，变成了数字3，值是'true'变成了布尔值ture -->
+        <div v-bind:class="color">1111111111111</div> <!-- v-bind：用于绑定元素属性，也叫指令，让属性从静态变为动态，可省略，冒号必须留下 -->
+        <div :class="isLogin?'red':'yellow'">2222222222222</div> <!-- 不仅支持class，所有属性都支持，比如图片的，链接的，id，style等等 -->
+        <img :src="url" alt="" width="300"> <!-- 注意，这里如果url直接放的是地址，就不需要动态绑定 -->
+        <button :disabled="isdisabled">click</button> <!-- 除了false，传其他的值都是禁用 -->
+        <img :="imgobj"> <!-- 一个标签需绑定多个元素属性的写法 -->
+        <!-- 双向绑定，绑定的是方法，或者表达式，单独属性直接去掉冒号正常写死就行 -->
+    </div>
+    <script>
+        var obj1 = {
+            data() {
+                return {
+                    isLogin: true,
+                    color: "yellow",
+                    url: 'https://pic.maizuo.com/usr/movie/02e5b8507b28a6417eb2712643f3b246.jpg?x-oss-process=image/quality,Q_70',
+                    isdisabled: false,
+                    imgobj: {
+                        width: 300,
+                        src: 'https://pic.maizuo.com/usr/movie/30d87e276c59d8fe9b73ef7a57035bc0.jpg?x-oss-process=image/quality,Q_70'
+                    }
+                }
+            }
+        }
+        var app1 = Vue.createApp(obj1).mount('#box1')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 语法糖和this指向 -->
+    <div id="box2">
+        {{myname}}
+        <button @click="handleClick()">click</button>
+        <div v-show="isShow"> 我是显示还是隐藏</div> <!-- v-show：语法糖，控制显示或隐藏 -->
+        <div v-if="isShow"> 我是创建或者删除</div> <!-- v-if：条件渲染，控制创建或者删除，后面可接条件，变量，三目，表达式等 -->
+        <ul>
+            <li v-for="item,index in list"> <!-- 执行for循环 -->
+                {{item}}
+                <b>{{index}}</b>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var obj2 = {
+            data() {
+                return {
+                    myname: "kerwin",
+                    isShow: false,
+                    list: [111, 222, 333]
+                }
+            },
+            methods: {
+                handleClick() {
+                    console.log('click', this)         //this指向实例化之后的Vue.createApp(obj2).mount('#box2')，也就是app2
+                    this.myname = 'xiaoming'           //这时候var app就可以省略了
+                    this.isShow = !this.isShow         //每次点击取反
+                }
+            }
+        }
+        var app2 = Vue.createApp(obj2).mount('#box2')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 一个简易备忘录案例 -->
+    <div id="box3">
+        <input type="text" v-model="mytest"> <!-- v-model：语法糖，双向绑定指令，每次输入框输入内容就跟着改变，同理内容改变，输入框值也跟着改变  -->
+        <button @click="handleAdd">add</button>
+        <ul v-if="datalist.length">
+            <li v-for="item,index in datalist">{{item}}
+                <button @click="handleDel(index)">del</button>
+            </li>
+        </ul>
+        <div v-else>暂无待办事项</div>
+    </div>
+    <script>
+        var obj3 = {
+            data() {
+                return {
+                    mytest: "",
+                    datalist: ['11', '22', '33'],
+                }
+            },
+            methods: {
+                handleAdd() {
+                    console.log('add', this.mytest)
+                    this.datalist.push(this.mytest)
+                    this.mytest = ''          //清空输入框
+                },
+                handleDel(index) {
+                    console.log('del', index)
+                    this.datalist.splice(index, 1)         //每次变更，都会重新循环改变item,index的值
+                }
+            }
+        }
+        var app3 = Vue.createApp(obj3).mount('#box3')
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- 点击变色案例 -->
+    <div id="box4">
+        <ul>
+            <li v-for="item,index in datalist" :class="current===index?'active':''" @click="handleClick(index) ">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        var obj4 = {
+            data() {
+                return {
+                    datalist: ["111", "222", "333"],
+                    current: ''           //当前点击的索引值，设为空一开始就不会有默认值
+                }
+            },
+            methods: {
+                handleClick(index) {
+                    this.current = index
+                }
+            }
+        }
+        var app4 = Vue.createApp(obj4).mount("#box4")
+    </script>
+
+
+    <br>
+    <hr><br>
+
+
+    <!-- v-html和class属性绑定 -->
+    <div id="box5">
+        {{myhtml}} <!-- 原模原样输出，没有执行b标签 -->
+        <div v-html="myhtml"></div>
+        <div :class="classObj">赵钱孙李</div> <!-- 元素属性值可以写成对象形式 -->
+        <div :class="classArr">我是kerwin</div><!-- 元素属性值可以写成数组形式 -->
+        <!-- 改变class属性的方式，变成了改变对象和数组的值去完成（控制台可演示） -->
+    </div>
+    <script>
+        var obj5 = {
+            data() {
+                return {
+                    myhtml: "<b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam animi exercitationem fugit maiores, asperiores excepturi reiciendis. Iste quae omnis consectetur praesentium, consequatur debitis perferendis possimus, quo velit et eius similique!</b>",
+                    classObj: {
+                        aaa: true,
+                        bbb: true,
+                        ccc: false
+                    },
+                    classArr: ["aaa", "ccc", "bbb"]
+                }
+            }
+        }
+        var app5 = Vue.createApp(obj5).mount("#box5")
+        // 问题1：为什么后端要给我带片段的数据：有的系统需要生成这种带标签的片段，比如富文本编辑器，扔到前端页面中
+        // 问题2：遇到这类问题如何解解决：v-html，只放信任的地址*/
+    </script>
+</body>
+
+</html>
