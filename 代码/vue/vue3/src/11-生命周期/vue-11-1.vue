@@ -7,7 +7,7 @@
         <div id="aaa"></div>
 
         <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
-        <div id="main" style="width: 600px;height:400px;"></div>
+        <div id="main" style="width: 1000px;height:600px;"></div>
     </div>
 </template>
 
